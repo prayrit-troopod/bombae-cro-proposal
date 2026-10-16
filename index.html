@@ -192,6 +192,16 @@ tr.hl td { background: var(--accent-wash); }
 tr:last-child td { border-bottom: 0; }
 .fineprint { font-size: 13px; color: var(--muted); max-width: 80ch; }
 
+/* Commercials */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.plan { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 18px; align-content: start; }
+.plan.featured { border-color: rgba(139,107,247,.55); background: linear-gradient(180deg, var(--accent-wash), var(--panel) 60%); }
+.planhead { display: grid; gap: 6px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.price { font-size: 38px; font-weight: 700; letter-spacing: -.02em; }
+.planline { font-size: 15px; color: var(--muted); }
+.plan ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; color: #D6D6DE; }
+@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
+
 /* Asks */
 .asks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; counter-reset: ask; }
 .ask { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
@@ -777,6 +787,40 @@ footer img { height: 20px; width: auto; }
     </table>
   </div>
   <p class="fineprint">Add to carts and checkouts are GA4 events. Orders are Shopify's count. Revenue uses the store's average order value of ₹1,740. These are illustrative scenarios, not forecasts or commitments. Each change is confirmed by its own test.</p>
+</section>
+
+<section id="commercials">
+  <div class="head">
+    <span class="eyebrow">Commercials</span>
+    <h2>Two ways to work with us</h2>
+    <p>TrooCRO fixes the issues in the customer journey covered in this proposal. TrooGrowth runs tests, fixes issues and consults on the levers that drive revenue growth.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="planhead">
+        <span class="eyebrow">TrooCRO</span>
+        <b class="price num">₹2,00,000</b>
+        <p class="planline">Fix the customer journey</p>
+      </div>
+      <ul>
+        <li>We fix the issues shoppers hit along the customer journey, from the product page to Add to Cart, cart and checkout.</li>
+        <li>This covers barriers B1 to B9 in this proposal, on the hero PDPs first and then across every product page.</li>
+        <li>We measure each fix against its primary metric: cart → checkout, checkout → order and add-to-cart rate.</li>
+      </ul>
+    </div>
+    <div class="plan featured">
+      <div class="planhead">
+        <span class="eyebrow">TrooGrowth</span>
+        <b class="price num">₹2,50,000</b>
+        <p class="planline">Grow revenue</p>
+      </div>
+      <ul>
+        <li>We run A/B tests, fix issues and consult on the levers that lead to revenue growth.</li>
+        <li>We work towards moving Bombae's revenue numbers: conversion rate, average order value and orders.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fineprint">Page speed optimisation (TrooPerformance, B10) and new creatives are quoted and billed separately.</p>
 </section>
 
 <section id="asks">
