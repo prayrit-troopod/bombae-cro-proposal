@@ -203,6 +203,30 @@ tr:last-child td { border-bottom: 0; }
 .plan ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; color: #D6D6DE; }
 @media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
 
+.perfcomm { margin-top: 10px; border: 1px dashed rgba(245,194,107,.45); border-radius: 16px; padding: 24px; display: grid; gap: 18px; background: var(--panel); }
+.perfhead { display: grid; gap: 8px; max-width: 72ch; }
+.perfhead .eyebrow { color: var(--p1); }
+.perfhead h3 { font-size: 22px; font-weight: 600; }
+.perfhead p { color: #C9C9D4; font-size: 15px; }
+.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.track2 { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; align-content: start; }
+.trackhead { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.trk { font-weight: 600; font-size: 16px; }
+.pill { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; background: var(--p1-wash); color: var(--p1); }
+.track2 > p { font-size: 14.5px; color: #D6D6DE; }
+.fees { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.fee { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.fee .when { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.fee b { font-size: 22px; font-weight: 700; color: var(--fg); }
+.fee span:last-child { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.total { font-size: 14px; color: var(--muted); }
+.total b { color: var(--fg); }
+.terms summary { cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
+.terms summary:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
+.terms ul { margin: 12px 0 0; padding-left: 18px; display: grid; gap: 7px; font-size: 14px; color: #D6D6DE; }
+@media (max-width: 820px) { .tracks { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .fees { grid-template-columns: 1fr; } .perfcomm { padding: 18px; } }
+
 /* Asks */
 .asks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; counter-reset: ask; }
 .ask { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
@@ -712,7 +736,7 @@ footer img { height: 20px; width: auto; }
         <p>We delivered similar theme-side performance work for a brand in the Essor Group's ($1B+) portfolio in 2 weeks. The average performance score went from 32 to 62, and average page load on a throttled mobile connection went from 35s to 4.5s. <a href="https://trooperformancecasestudy.pages.dev/">See the case study</a>.</p>
       </div>
       <div class="blk access"><span class="lbl">Separate charges apply</span>
-        <p>Page speed optimisation (TrooPerformance) is outside the core CRO scope. It is quoted and billed separately.</p>
+        <p>Page speed optimisation (TrooPerformance) is outside the core CRO scope and billed separately. See <a href="#perf-commercials">site performance commercials</a>.</p>
       </div>
       <p class="metric">Primary metric: <b>Core Web Vitals pass (LCP under 2.5s, INP under 200ms)</b> · PageSpeed score · reach at 20% depth · bounce rate</p>
     </div>
@@ -821,7 +845,49 @@ footer img { height: 20px; width: auto; }
       </ul>
     </div>
   </div>
-  <p class="fineprint">Both fees are billed monthly, plus GST. Page speed optimisation (TrooPerformance, B10) and new creatives are quoted and billed separately.</p>
+  <p class="fineprint">Both fees are billed monthly, plus GST. Site performance (TrooPerformance) is billed separately, below. New creatives are quoted separately.</p>
+
+  <div class="perfcomm" id="perf-commercials">
+    <div class="perfhead">
+      <span class="eyebrow">Site performance · TrooPerformance · billed separately</span>
+      <h3>Fixing page speed (B10)</h3>
+      <p>Two tracks. Track 1 fixes and holds the theme-side speed issues from our audit. Track 2 is an optional add-on to work with the app vendors whose scripts slow the site down.</p>
+    </div>
+    <div class="tracks">
+      <div class="track2">
+        <div class="trackhead"><span class="trk">Track 1 · Theme-side optimisation</span><span class="pill">6-month programme</span></div>
+        <p>We fix the three templates (Fuzzoff bestseller, Shop All, homepage) on a duplicate theme, take the fixes to production and hold the score there for 6 months. Script work for plugins and apps is outside this track and sits in Track 2.</p>
+        <div class="fees">
+          <div class="fee"><span class="when">One-time · Month 1</span><b class="num">₹1.5L</b><span>Optimise the three templates and ship them to production</span></div>
+          <div class="fee"><span class="when">Quarterly · Recurring</span><b class="num">₹1.25L / qtr × 2</b><span>Ongoing maintenance to hold the score, months 2–6</span></div>
+        </div>
+        <p class="total">6-month programme, <b>₹4L total</b>: ₹1.5L one-time to go live, plus ₹1.25L per quarter for 2 quarters to maintain it.</p>
+      </div>
+      <div class="track2">
+        <div class="trackhead"><span class="trk">Track 2 · Plugin and third-party app coordination</span><span class="pill">Optional add-on</span></div>
+        <p>Runs alongside Track 1. We work with Bombae's app vendors (SagePilot, GoKwik and others) to optimise the scripts that drag the score down. This needs introductions from the Bombae team to the relevant app teams.</p>
+        <div class="fees">
+          <div class="fee"><span class="when">One-time</span><b class="num">₹1L</b><span>₹50k fixed + ₹50k on hitting the target</span></div>
+          <div class="fee"><span class="when">Monthly</span><b class="num">Included</b><span>No separate monthly fee, folded into Track 1's cost</span></div>
+        </div>
+      </div>
+    </div>
+    <details class="terms">
+      <summary>Terms and notes for site performance</summary>
+      <ul>
+        <li><b>The 15% band:</b> Lighthouse scores change with device, network and time of day. A result within ±15% of the agreed Speed Index target counts as on target.</li>
+        <li><b>Target:</b> the Speed Index target for Track 2 is agreed with the Bombae team at kickoff.</li>
+        <li><b>Change guidelines:</b> we share a living guideline doc for Bombae's tech or dev agency. It must be followed on every future change, so the gains aren't quietly lost.</li>
+        <li><b>Track 1 scope limit:</b> score impact that comes from third-party plugins or apps can't be delivered under Track 1. It is covered only under Track 2.</li>
+        <li><b>Track 2 dependency:</b> plugin and app work needs direct work with vendors, which depends on introductions and cooperation from the Bombae team.</li>
+        <li><b>Measurement tool:</b> Speed Index is measured with Lighthouse 13.5.0, mobile preset, unless stated otherwise.</li>
+        <li><b>Proposal validity:</b> these commercials are valid for 15 days from the date of this proposal.</li>
+        <li><b>Payment terms:</b> the one-time fee is payable in advance of deploying the optimised theme. Recurring maintenance fees are payable quarterly in advance.</li>
+        <li><b>Taxes:</b> GST and any other applicable taxes are charged in addition.</li>
+        <li><b>Team dependency:</b> this work needs prompt support, connects and approvals from the Bombae team. A delay of more than 3 days on any of these will affect deliverables, and Troopod will not be held responsible for the resulting impact.</li>
+      </ul>
+    </details>
+  </div>
 </section>
 
 <section id="asks">
