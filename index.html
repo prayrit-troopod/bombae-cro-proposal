@@ -150,6 +150,14 @@ figcaption { font-size: 12px; color: var(--muted); line-height: 1.4; }
 }
 @media (max-width: 600px) { .barrier { padding: 18px; } }
 
+.shots.stack { flex-direction: column; }
+figure.wide { width: 300px; }
+.shotimg { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+.shotimg img { display: block; width: 100%; height: auto; }
+table.mini { min-width: 560px; font-size: 13px; }
+table.mini th, table.mini td { padding: 9px 11px; }
+@media (max-width: 900px) { .shots.stack { flex-direction: row; } figure.wide { flex: 0 0 280px; width: 280px; } }
+
 /* Roadmap */
 .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .phase { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 12px; align-content: start; }
@@ -554,29 +562,68 @@ footer img { height: 20px; width: auto; }
 
   <article class="barrier" id="b10">
     <div class="txt">
-      <div class="tagrow"><span class="id">B10</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + PageSpeed (Hairess)</span></div>
+      <div class="tagrow"><span class="id">B10</span><span class="sev p0">P0</span><span class="src">TrooPerformance audit · Lighthouse 13.5, mobile · 16 Oct 2026</span></div>
       <h4>Product pages are heavy, so many shoppers leave before they finish loading</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <p>On the example page, loading Fuzzoff in our test session pulled more than 2 MB of JavaScript from 19 different domains, including GoKwik, Snapmint, Unloq, Sagepilot chat, Popin video calling, Clarity, Meta and Google. The Hairess page scored 49/100 on Google's mobile test. Its main image appeared after 2.8s for real users, so it failed Core Web Vitals.</p>
-      </div>
-      <div class="statpair">
-        <div><b>19</b><span>script domains on Fuzzoff</span></div>
-        <div><b>&gt;2 MB</b><span>JavaScript transferred</span></div>
-        <div><b>2.8s</b><span>main image, real users (Hairess)</span></div>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>Google's mobile research found that the chance of a bounce rises 32% as load time goes from 1s to 3s, and 90% at 5s. Visitors from paid social on mid-range Android phones sit right in that range.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
         <ul>
-          <li>Remove unused JavaScript and preload the first gallery image.</li>
-          <li>Compress and resize the gallery images for phone screens.</li>
+          <li>The Fuzzoff 6-in-1 page scores <b>37/100</b> on Google PageSpeed for mobile.</li>
+          <li>The main product image reaches the browser in half a second, then waits another 1.9 seconds behind scripts before it appears.</li>
+          <li>The page ships 2.5 MB of JavaScript, and over 1 MB of it is never used. Render-blocking files hold back the first paint by 2.1 seconds.</li>
+          <li>The phone's main thread is busy for 12.9 seconds.</li>
+          <li>For real shoppers over the last 28 days, the page fails Core Web Vitals. The main image takes 3s to show (Google's limit is 2.5s), and a tap takes 214ms to respond (the limit is 200ms).</li>
         </ul>
       </div>
-      <div class="blk access"><span class="lbl">Separate charges apply</span>
-        <p>Page speed optimisation is outside the core CRO scope. It is quoted and billed separately.</p>
+      <div class="statpair">
+        <div><b>37</b><span>PageSpeed score, mobile</span></div>
+        <div><b>21.5s</b><span>main image, lab test</span></div>
+        <div><b>12.9s</b><span>main thread busy</span></div>
+        <div><b>3s · 214ms</b><span>real shoppers: LCP · INP</span></div>
       </div>
-      <p class="metric">Primary metric: <b>Core Web Vitals pass (LCP under 2.5s)</b> · reach at 20% depth · bounce rate</p>
+      <div class="blk"><span class="lbl">Across the store</span>
+        <p>All three templates tested score under 50, and every one takes about 8× longer than Google's 2.5-second limit to show its main image:</p>
+      </div>
+      <div class="tablewrap">
+        <table class="mini">
+          <thead><tr><th>Page</th><th class="r">Score</th><th class="r">LCP</th><th class="r">Blocking time</th><th class="r">Main thread</th><th class="r">Unused JS</th><th class="r">Render blocking</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in/hfjwt010ly?form_factor=mobile">Homepage</a></td><td class="r">47</td><td class="r">22.1s</td><td class="r">360ms</td><td class="r">9.5s</td><td class="r">937 KiB</td><td class="r">2,010ms</td></tr>
+            <tr><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in-collections-shop-all/wab9syz7iv?form_factor=mobile">Shop All</a></td><td class="r">29</td><td class="r">21.2s</td><td class="r">1,700ms</td><td class="r">11.0s</td><td class="r">975 KiB</td><td class="r">1,660ms</td></tr>
+            <tr class="hl"><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in-products-6-in-1-bikini-trimmer-fuzzoff/4pgokwvv86?form_factor=mobile">Fuzzoff 6-in-1</a></td><td class="r">37</td><td class="r">21.5s</td><td class="r">760ms</td><td class="r">12.9s</td><td class="r">1,059 KiB</td><td class="r">2,140ms</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="blk">
+        <p>Most of the weight comes from third-party apps that load on every page: SagePilot (671 KiB), GoKwik KwikCart and KwikPass (another 800 KiB to 1 MB), the Meta pixel, Google Tag Manager, Microsoft Clarity, Google Translate, Unloq and Popin. On Shop All, a tap on Add to Cart waits 1,700ms behind scripts, more than 8× Google's 200ms limit. <b>Most of this can be fixed by changing load order and loading apps only when they're needed, without removing any app.</b></p>
+      </div>
+      <div class="blk"><span class="lbl">Why it costs orders</span>
+        <p>Google's mobile research found that the chance of a bounce rises 32% as load time goes from 1s to 3s, and 90% at 5s. Diwali is on 8 November, 23 days away, and Shop All is already set up for gifting. Every ad rupee spent during the festive peak lands on these pages.</p>
+      </div>
+      <div class="blk fix"><span class="lbl">What we will change, with TrooPerformance</span>
+        <ul>
+          <li><b>Fix the three templates in under 48 hours</b> on a duplicate theme, starting with the bestseller page, then Shop All and the homepage. We load the product image first, defer render-blocking files and set the load order for third-party apps. Nothing goes live until the Bombae team has reviewed it.</li>
+          <li><b>Monthly audit:</b> we re-run the audit every month, flag any change and work to hold the score we delivered.</li>
+          <li><b>Change guidelines:</b> a living guide for Bombae's tech or dev agency, so future changes don't quietly slow the site down again.</li>
+          <li><b>Plugin coordination:</b> we work directly with SagePilot, GoKwik and the other app vendors to optimise their scripts. This needs introductions from the Bombae team.</li>
+        </ul>
+      </div>
+      <div class="blk"><span class="lbl">Also found: search and AI visibility</span>
+        <ul>
+          <li>The Fuzzoff page has two Product schema blocks. The one with the 4.73-star, 400-review rating fails to parse, so Google and AI shopping agents see the price but no reviews.</li>
+          <li>Shop All (142 products) is marked up as a single product called "Gifts she'll actually use".</li>
+          <li>The llms.txt and AGENTS.md files that AI agents read first are Shopify's default text and don't name any Bombae product.</li>
+        </ul>
+      </div>
+      <div class="blk"><span class="lbl">Recent work</span>
+        <p>We delivered similar theme-side performance work for a brand in the Essor Group's ($1B+) portfolio in 2 weeks. The average performance score went from 32 to 62, and average page load on a throttled mobile connection went from 35s to 4.5s. <a href="https://trooperformancecasestudy.pages.dev/">See the case study</a>.</p>
+      </div>
+      <div class="blk access"><span class="lbl">Separate charges apply</span>
+        <p>Page speed optimisation (TrooPerformance) is outside the core CRO scope. It is quoted and billed separately.</p>
+      </div>
+      <p class="metric">Primary metric: <b>Core Web Vitals pass (LCP under 2.5s, INP under 200ms)</b> · PageSpeed score · reach at 20% depth · bounce rate</p>
+    </div>
+    <div class="shots stack">
+      <figure class="wide"><div class="shotimg"><img src="img/12-psi-fuzzoff.jpg" alt="PageSpeed mobile report for the Fuzzoff 6-in-1 page: score 37, LCP 21.5s, TBT 760ms"></div><figcaption>PageSpeed mobile lab test, Fuzzoff 6-in-1: score 37.</figcaption></figure>
+      <figure class="wide"><div class="shotimg"><img src="img/13-cwv-fuzzoff.jpg" alt="Core Web Vitals assessment failed: LCP 3s, INP 214ms"></div><figcaption>Real shoppers, last 28 days: Core Web Vitals failed.</figcaption></figure>
     </div>
   </article>
 </section>
@@ -617,7 +664,7 @@ footer img { height: 20px; width: auto; }
       <ul>
         <li>B2: GoKwik funnel audit, then prepaid offer and COD tests</li>
         <li>B4: cart drawer clean-up and reward progress bar</li>
-        <li>B10: speed sprint, with JavaScript and image work (separate charges apply)</li>
+        <li>B10: TrooPerformance fixes three templates in 48 hrs, then monthly audits (separate charges apply)</li>
       </ul>
       <p class="out">A/B tests: cart drawer variant, prepaid offer.</p>
     </div>
