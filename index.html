@@ -270,43 +270,20 @@ footer img { height: 20px; width: auto; }
     <p>Each barrier applies to the whole store. The screenshots show it on the example page, the Fuzzoff 6-in-1 PDP, and the text says where else it shows up. P0 means fix or test in the first sprint. P1 follows once the buy path is unblocked.</p>
   </div>
 
+
   <div class="ghead" id="g1">
     <span class="gnum">01</span>
     <div class="gtxt">
       <h3>Unblock the path to purchase</h3>
       <p class="q">She has already decided to buy. The site then makes it hard to pay.</p>
       <p>Every shopper here has chosen the product, so each fix wins back an order that was already ours. That makes these the fastest, cheapest gains, and the place to start.</p>
-      <ul class="glist"><li><a href="#b1">B1</a> Checkout drop-off</li><li><a href="#b2">B2</a> Add to Cart leads nowhere</li><li><a href="#b3">B3</a> No buy button for returning carts</li><li><a href="#b4">B4</a> Cart drawer distracts</li></ul>
+      <ul class="glist"><li><a href="#b1">B1</a> Add to Cart leads nowhere</li><li><a href="#b2">B2</a> Checkout drop-off</li><li><a href="#b3">B3</a> No buy button for returning carts</li><li><a href="#b4">B4</a> Cart drawer distracts</li></ul>
     </div>
   </div>
 
   <article class="barrier" id="b1">
     <div class="txt">
-      <div class="tagrow"><span class="id">B1</span><span class="sev p0">P0</span><span class="src">GA4 + Shopify</span></div>
-      <h4>About 3 in 4 started checkouts don't become orders, and we can't see why yet</h4>
-      <div class="blk"><span class="lbl">What we saw</span>
-        <p>Store-wide, Shopify's 9,537 orders are about 24% of the 39,286 checkouts GA4 records. On the example page, 6,763 Fuzzoff checkouts led to 1,896 purchases in GA4 (28.0%). Every step from phone number and OTP to address and payment runs inside GoKwik, and none of that reaches GA4 in a usable form.</p>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>This is the largest drop in the journey. Raising store checkout completion from 24% to 30% would mean about 2,250 more orders a month.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Pull the GoKwik step funnel (phone → OTP → address → payment → order) and the split by payment method.</li>
-          <li>Test a prepaid offer shown before the payment step, and make any COD fee clear.</li>
-          <li>Show the free gift as a line in the order summary.</li>
-        </ul>
-      </div>
-      <div class="blk access"><span class="lbl">Needed first: GoKwik access</span>
-        <p>We need access to the GoKwik merchant dashboard before we can recommend a credible fix for checkout. Without the step funnel, payment-method split and drop-off reasons, we can only guess where the 3 in 4 shoppers leave. The tests above are starting hypotheses, and we will confirm or replace them once the GoKwik data is in.</p>
-      </div>
-      <p class="metric">Primary metric: <b>checkout → order (~24% store-wide)</b></p>
-    </div>
-  </article>
-
-  <article class="barrier" id="b2">
-    <div class="txt">
-      <div class="tagrow"><span class="id">B2</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
+      <div class="tagrow"><span class="id">B1</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
       <h4>Add to Cart leads nowhere: no cart opens and no Checkout button appears</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
@@ -329,6 +306,30 @@ footer img { height: 20px; width: auto; }
     </div>
     <div class="shots">
       <figure><div class="phone"><img src="img/03-atc-toast.jpg" alt="Product added to cart toast and stepper with scroll-to-top button covering plus"></div><figcaption>0.7s after tapping: a toast and a stepper. The scroll-to-top button covers "+".</figcaption></figure>
+    </div>
+  </article>
+
+  <article class="barrier" id="b2">
+    <div class="txt">
+      <div class="tagrow"><span class="id">B2</span><span class="sev p0">P0</span><span class="src">GA4 + Shopify</span></div>
+      <h4>About 3 in 4 started checkouts don't become orders, and we can't see why yet</h4>
+      <div class="blk"><span class="lbl">What we saw</span>
+        <p>Store-wide, Shopify's 9,537 orders are about 24% of the 39,286 checkouts GA4 records. On the example page, 6,763 Fuzzoff checkouts led to 1,896 purchases in GA4 (28.0%). Every step from phone number and OTP to address and payment runs inside GoKwik, and none of that reaches GA4 in a usable form.</p>
+      </div>
+      <div class="blk"><span class="lbl">Why it costs orders</span>
+        <p>This is the largest drop in the journey. Raising store checkout completion from 24% to 30% would mean about 2,250 more orders a month.</p>
+      </div>
+      <div class="blk fix"><span class="lbl">What we will change</span>
+        <ul>
+          <li>Pull the GoKwik step funnel (phone → OTP → address → payment → order) and the split by payment method.</li>
+          <li>Test a prepaid offer shown before the payment step, and make any COD fee clear.</li>
+          <li>Show the free gift as a line in the order summary.</li>
+        </ul>
+      </div>
+      <div class="blk access"><span class="lbl">Needed first: GoKwik access</span>
+        <p>We need access to the GoKwik merchant dashboard before we can recommend a credible fix for checkout. Without the step funnel, payment-method split and drop-off reasons, we can only guess where the 3 in 4 shoppers leave. The tests above are starting hypotheses, and we will confirm or replace them once the GoKwik data is in.</p>
+      </div>
+      <p class="metric">Primary metric: <b>checkout → order (~24% store-wide)</b></p>
     </div>
   </article>
 
@@ -591,7 +592,7 @@ footer img { height: 20px; width: auto; }
       <span class="when">Weeks 1–2</span>
       <h3>Unblock the buy path, store-wide</h3>
       <ul>
-        <li>B2: open the cart drawer on Add to Cart, and hide scroll-to-top</li>
+        <li>B1: open the cart drawer on Add to Cart, and hide scroll-to-top</li>
         <li>B3: Checkout button for shoppers with the item in cart</li>
         <li>B5: EMI modal buy button and live dates</li>
         <li>B6: one warranty number per product, matching announcement bars</li>
@@ -614,7 +615,7 @@ footer img { height: 20px; width: auto; }
       <span class="when">Weeks 3–8, alongside</span>
       <h3>Speed, cart and checkout</h3>
       <ul>
-        <li>B1: GoKwik funnel audit, then prepaid offer and COD tests</li>
+        <li>B2: GoKwik funnel audit, then prepaid offer and COD tests</li>
         <li>B4: cart drawer clean-up and reward progress bar</li>
         <li>B10: speed sprint, with JavaScript and image work (separate charges apply)</li>
       </ul>
