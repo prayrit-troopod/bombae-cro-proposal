@@ -115,8 +115,22 @@ section .head p { color: #C9C9D4; }
 @media (max-width: 820px) { .mapwrap { grid-template-columns: 1fr; } .spine { height: 520px; } }
 
 /* Barrier cards */
-.barrier { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 26px; scroll-margin-top: 16px; }
+.barrier { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; scroll-margin-top: 16px; transition: border-color .15s; }
+.barrier[open] { border-color: rgba(139,107,247,.45); }
+.barrier summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: 16px; }
+.barrier summary::-webkit-details-marker { display: none; }
+.barrier summary:hover { background: var(--panel-2); }
+.barrier summary:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
+.sumtxt { display: grid; gap: 10px; min-width: 0; flex: 1; }
+.chev { flex: 0 0 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); position: relative; }
+.chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 9px; height: 9px; border-right: 2px solid var(--accent-light); border-bottom: 2px solid var(--accent-light); transform: translate(-50%, -50%) rotate(45deg); transition: transform .2s; }
+.barrier[open] .chev::before { top: 55%; transform: translate(-50%, -50%) rotate(-135deg); }
+.bbody { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; padding: 4px 26px 26px; }
+@media (prefers-reduced-motion: reduce) { .chev::before, .barrier { transition: none; } }
 .barrier .txt { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.toggleall { justify-self: start; font: 500 13px var(--font-mono); color: var(--accent-light); background: var(--accent-wash); border: 1px solid rgba(139,107,247,.35); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.toggleall:hover { border-color: var(--accent); }
+.toggleall:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
 .tagrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .id { font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
 .sev { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .06em; padding: 3px 8px; border-radius: 6px; }
@@ -144,11 +158,11 @@ figcaption { font-size: 12px; color: var(--muted); line-height: 1.4; }
 .statpair b { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--accent-light); }
 .statpair span { font-size: 12px; color: var(--muted); }
 @media (max-width: 900px) {
-  .barrier { grid-template-columns: 1fr; }
+  .bbody { grid-template-columns: 1fr; }
   .shots { overflow-x: auto; padding-bottom: 6px; }
   figure { flex: 0 0 190px; width: 190px; }
 }
-@media (max-width: 600px) { .barrier { padding: 18px; } }
+@media (max-width: 600px) { .barrier summary { padding: 18px; } .bbody { padding: 4px 18px 18px; } }
 
 .shots.stack { flex-direction: column; }
 figure.wide { width: 300px; }
@@ -275,8 +289,9 @@ footer img { height: 20px; width: auto; }
   <div class="head">
     <span class="eyebrow">The barriers, group by group</span>
     <h2>What we saw, why it costs orders, and what we will change</h2>
-    <p>Each barrier applies to the whole store. The screenshots show it on the example page, the Fuzzoff 6-in-1 PDP, and the text says where else it shows up. P0 means fix or test in the first sprint. P1 follows once the buy path is unblocked.</p>
+    <p>Each barrier applies to the whole store. The screenshots show it on the example page, the Fuzzoff 6-in-1 PDP, and the text says where else it shows up. P0 means fix or test in the first sprint. P1 follows once the buy path is unblocked. Tap a barrier to open it.</p>
   </div>
+  <button type="button" class="toggleall" id="toggleall" aria-expanded="false">Expand all barriers</button>
 
 
   <div class="ghead" id="g1">
@@ -289,10 +304,16 @@ footer img { height: 20px; width: auto; }
     </div>
   </div>
 
-  <article class="barrier" id="b1">
+  <details class="barrier" id="b1">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B1</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
+        <h4>Add to Cart leads nowhere: no cart opens and no Checkout button appears</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B1</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-      <h4>Add to Cart leads nowhere: no cart opens and no Checkout button appears</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>After tapping Add to Cart, a grey "Product added to cart" toast shows for about 2 seconds over the title. It can't be tapped.</li>
@@ -315,12 +336,19 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/03-atc-toast.jpg" alt="Product added to cart toast and stepper with scroll-to-top button covering plus"></div><figcaption>0.7s after tapping: a toast and a stepper. The scroll-to-top button covers "+".</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b2">
+  <details class="barrier" id="b2">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B2</span><span class="sev p0">P0</span><span class="src">GA4 + Shopify</span></div>
+        <h4>About 3 in 4 started checkouts don't become orders, and we can't see why yet</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B2</span><span class="sev p0">P0</span><span class="src">GA4 + Shopify</span></div>
-      <h4>About 3 in 4 started checkouts don't become orders, and we can't see why yet</h4>
       <div class="blk"><span class="lbl">What we saw</span>
         <p>Store-wide, Shopify's 9,537 orders are about 24% of the 39,286 checkouts GA4 records. On the example page, 6,763 Fuzzoff checkouts led to 1,896 purchases in GA4 (28.0%). Every step from phone number and OTP to address and payment runs inside GoKwik, and none of that reaches GA4 in a usable form.</p>
       </div>
@@ -339,12 +367,19 @@ footer img { height: 20px; width: auto; }
       </div>
       <p class="metric">Primary metric: <b>checkout → order (~24% store-wide)</b></p>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b3">
+  <details class="barrier" id="b3">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B3</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP</span></div>
+        <h4>Returning shoppers with the item already in their cart see no buy button at all</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B3</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP</span></div>
-      <h4>Returning shoppers with the item already in their cart see no buy button at all</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <p>We reloaded the example page with Fuzzoff already in the cart. The baseline audit found the same on Hairess. Every buy button, in the page and in the sticky bar, showed only "− 1 +". There was no Add to Cart, Buy Now or Checkout anywhere.</p>
       </div>
@@ -359,12 +394,19 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/06-video-feed.jpg" alt="Page reloaded with item in cart shows only quantity steppers"></div><figcaption>After a reload: steppers only, top and bottom.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b4">
+  <details class="barrier" id="b4">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B4</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
+        <h4>The cart drawer pushes shoppers to hunt for coupons and hides the next reward</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B4</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
-      <h4>The cart drawer pushes shoppers to hunt for coupons and hides the next reward</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>The drawer says "You have unlocked all rewards!" at ₹1,199 (and at ₹1,799 on Hairess). Meanwhile, the announcement bar rotates "Free Tote Bag on order above ₹2,500".</li>
@@ -388,7 +430,8 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/05-cart-drawer.jpg" alt="GoKwik cart drawer with coupon field, cut-off offer cards and ₹20 UPI incentive"></div><figcaption>Cart drawer, opened from the header bag icon.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
   <div class="ghead" id="g2">
     <span class="gnum">02</span>
@@ -400,10 +443,16 @@ footer img { height: 20px; width: auto; }
     </div>
   </div>
 
-  <article class="barrier" id="b5">
+  <details class="barrier" id="b5">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B5</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
+        <h4>"Buy on EMI" opens a screen with no way to buy, and dates that are months out of date</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B5</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-      <h4>"Buy on EMI" opens a screen with no way to buy, and dates that are months out of date</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>Tapping "Buy on EMI" opens "Pay only ₹400 Now". The only button on that screen is the close icon.</li>
@@ -431,12 +480,19 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/02-emi-modal.jpg" alt="Bombae Pay Later modal with stale May and June dates and no buy button"></div><figcaption>The EMI modal: dated May and June, no buy button.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b6">
+  <details class="barrier" id="b6">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B6</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
+        <h4>Mixed messages on warranty and delivery chip away at trust</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B6</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
-      <h4>Mixed messages on warranty and delivery chip away at trust</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>The bullets and the "Best bits" badge say <b>1-year warranty</b>. The text under the sticky Add to Cart says <b>1.5-Years Exclusive Warranty</b>. Both are visible on the same screen.</li>
@@ -457,7 +513,8 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/04-atc-stepper.jpg" alt="Bullets say 1-year warranty while sticky bar says 1.5-Years warranty; delivery estimate unavailable"></div><figcaption>"1-year" in the bullets, "1.5-Years" in the sticky bar, delivery "unavailable".</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
   <div class="ghead" id="g3">
     <span class="gnum">03</span>
@@ -469,10 +526,16 @@ footer img { height: 20px; width: auto; }
     </div>
   </div>
 
-  <article class="barrier" id="b7">
+  <details class="barrier" id="b7">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B7</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
+        <h4>Reviews and customer photos sit below the point where most shoppers stop</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B7</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-      <h4>Reviews and customer photos sit below the point where most shoppers stop</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>Ratings and customer photos start at 64% of the page, after the FAQ. Written reviews start at 71%.</li>
@@ -496,12 +559,19 @@ footer img { height: 20px; width: auto; }
       <figure><div class="phone"><img src="img/07-best-bits.jpg" alt="Best bits icons and feature banner"></div><figcaption>Best bits and feature banners, 26–49% of the page.</figcaption></figure>
       <figure><div class="phone"><img src="img/09-reviews.jpg" alt="Rating breakdown and customer photos"></div><figcaption>Ratings and customer photos at 64%. Every photo is an unboxing.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b8">
+  <details class="barrier" id="b8">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B8</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP + competitor review</span></div>
+        <h4>First-time buyer questions are hidden in closed accordions halfway down</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B8</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP + competitor review</span></div>
-      <h4>First-time buyer questions are hidden in closed accordions halfway down</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <p>"I'm new to trimming, how to get started?", "Does the trimmer have any side effects?" and "Where does this trimmer work?" are the questions a first-time buyer has. They sit at 49% of the page, all closed, under the heading "for the truth seekers".</p>
       </div>
@@ -520,12 +590,19 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/08-faq.jpg" alt="Closed FAQ accordion titled for the truth seekers"></div><figcaption>Key first-timer questions, closed, at 49% depth.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
-  <article class="barrier" id="b9">
+  <details class="barrier" id="b9">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B9</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
+        <h4>The first screen is a pack shot and a block of text, with no result and no proof</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B9</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-      <h4>The first screen is a pack shot and a block of text, with no result and no proof</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>The first screen shows a pack shot, the title, "100% painfree trim", the price and the EMI box. The claim has nothing on screen to back it up.</li>
@@ -548,7 +625,8 @@ footer img { height: 20px; width: auto; }
     <div class="shots">
       <figure><div class="phone"><img src="img/01-fold.jpg" alt="Fuzzoff first screen on mobile: pack shot, title, price, EMI box"></div><figcaption>First screen on a 375px phone. Pack shot, then price, then text.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 
   <div class="ghead" id="g4">
     <span class="gnum">+</span>
@@ -560,10 +638,16 @@ footer img { height: 20px; width: auto; }
     </div>
   </div>
 
-  <article class="barrier" id="b10">
+  <details class="barrier" id="b10">
+    <summary>
+      <div class="sumtxt">
+        <div class="tagrow"><span class="id">B10</span><span class="sev p0">P0</span><span class="src">TrooPerformance audit · Lighthouse 13.5, mobile · 16 Oct 2026</span></div>
+        <h4>Product pages are heavy, so many shoppers leave before they finish loading</h4>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="bbody">
     <div class="txt">
-      <div class="tagrow"><span class="id">B10</span><span class="sev p0">P0</span><span class="src">TrooPerformance audit · Lighthouse 13.5, mobile · 16 Oct 2026</span></div>
-      <h4>Product pages are heavy, so many shoppers leave before they finish loading</h4>
       <div class="blk"><span class="lbl">What we saw on the example page</span>
         <ul>
           <li>The Fuzzoff 6-in-1 page scores <b>37/100</b> on Google PageSpeed for mobile.</li>
@@ -625,7 +709,8 @@ footer img { height: 20px; width: auto; }
       <figure class="wide"><div class="shotimg"><img src="img/12-psi-fuzzoff.jpg" alt="PageSpeed mobile report for the Fuzzoff 6-in-1 page: score 37, LCP 21.5s, TBT 760ms"></div><figcaption>PageSpeed mobile lab test, Fuzzoff 6-in-1: score 37.</figcaption></figure>
       <figure class="wide"><div class="shotimg"><img src="img/13-cwv-fuzzoff.jpg" alt="Core Web Vitals assessment failed: LCP 3s, INP 214ms"></div><figcaption>Real shoppers, last 28 days: Core Web Vitals failed.</figcaption></figure>
     </div>
-  </article>
+  </div>
+  </details>
 </section>
 
 <section id="plan">
@@ -712,5 +797,36 @@ footer img { height: 20px; width: auto; }
 </footer>
 
 </div>
+
+<script>
+(function () {
+  var all = function () { return Array.prototype.slice.call(document.querySelectorAll('details.barrier')); };
+  var btn = document.getElementById('toggleall');
+  function sync() {
+    var open = all().every(function (d) { return d.open; });
+    btn.textContent = open ? 'Collapse all barriers' : 'Expand all barriers';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () {
+    var open = !all().every(function (d) { return d.open; });
+    all().forEach(function (d) { d.open = open; });
+    sync();
+  });
+  all().forEach(function (d) { d.addEventListener('toggle', sync); });
+  function openFromHash() {
+    var id = location.hash.slice(1);
+    var el = id && document.getElementById(id);
+    if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView({ block: 'start' }); }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#b"]');
+    if (!a) return;
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el && el.tagName === 'DETAILS') { e.preventDefault(); el.open = true; el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
+})();
+</script>
 </body>
 </html>
