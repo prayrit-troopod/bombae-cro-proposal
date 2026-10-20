@@ -117,13 +117,13 @@ figcaption { font-size: 12px; color: var(--muted); line-height: 1.4; }
 @media (prefers-reduced-motion: reduce) { .chev::before { transition: none; } }
 
 /* Roadmap */
-.phases { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .phase { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 8px; }
 .phase .pn { font-family: var(--font-mono); font-size: 12px; color: var(--accent-light); }
 .phase h3 { font-size: 17px; font-weight: 600; }
 .phase p { font-size: 13.5px; color: var(--body); line-height: 1.5; }
 .phase .when { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 8px; }
-@media (max-width: 960px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 820px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .phases { grid-template-columns: 1fr; } }
 
 /* Tables */
@@ -302,20 +302,21 @@ footer img { height: 20px; width: auto; }
   <div class="head">
     <span class="eyebrow">03 · Approach and roadmap</span>
     <h2>How we will run the programme</h2>
-    <p>We rebuild the Add to Cart to Order journey first, then run experiments on top of it. Once that journey is optimised, we move to the next one, so each quarter has a clear focus.</p>
+    <p>We rebuild the Add to Cart to Order journey, test it against the live theme on a smaller audience, then roll it out to all traffic and keep improving it. Once that journey is optimised, we move to the next one, so each quarter has a clear focus.</p>
   </div>
   <div class="phases">
     <div class="phase"><span class="pn">01</span><h3>Re-audit</h3><p>Audit the full Add to Cart to Order journey, including the GoKwik checkout steps, and turn the findings into an execution plan.</p><span class="when">Weeks 1–2</span></div>
     <div class="phase"><span class="pn">02</span><h3>Revamp</h3><p>Design and build the new journey: Add to Cart behaviour, cart drawer and checkout entry, with tracking for every step.</p><span class="when">Weeks 3–6</span></div>
-    <div class="phase"><span class="pn">03</span><h3>Go-live</h3><p>QA on a duplicate theme, review with the Bombae team, then deploy to production.</p><span class="when">Week 7</span></div>
-    <div class="phase"><span class="pn">04</span><h3>A/B testing</h3><p>Run experiments on top of the revamped journey to improve each step further.</p><span class="when">Week 8 onwards</span></div>
-    <div class="phase"><span class="pn">05</span><h3>Next journey</h3><p>Move to the next journey in the following quarter, starting with average order value.</p><span class="when">Quarter 2 onwards</span></div>
+    <div class="phase"><span class="pn">03</span><h3>A/B test</h3><p>Test the revamped journey against the live theme with a smaller share of traffic, to confirm it performs better before full rollout.</p><span class="when">Weeks 7–9</span></div>
+    <div class="phase"><span class="pn">04</span><h3>Go-live</h3><p>Review the results with the Bombae team, then deploy the winning journey to production for all traffic.</p><span class="when">Week 10</span></div>
+    <div class="phase"><span class="pn">05</span><h3>Testing at scale</h3><p>Monitor how the new journey performs at full traffic, fix any issues and keep running experiments to improve each step.</p><span class="when">Week 11 onwards</span></div>
+    <div class="phase"><span class="pn">06</span><h3>Next journey</h3><p>Move to the next journey in the following quarter, starting with average order value.</p><span class="when">Quarter 2 onwards</span></div>
   </div>
   <div class="tablewrap">
     <table>
       <thead><tr><th>Quarter</th><th>Journey</th><th>Focus</th><th>Primary metric</th></tr></thead>
       <tbody>
-        <tr class="hl"><td><b>Q1</b></td><td>Add to Cart → Order</td><td>Re-audit, revamp, go-live and first experiments</td><td>Cart → checkout, checkout → order</td></tr>
+        <tr class="hl"><td><b>Q1</b></td><td>Add to Cart → Order</td><td>Re-audit, revamp, A/B test, go-live and testing at scale</td><td>Cart → checkout, checkout → order</td></tr>
         <tr><td><b>Q2</b></td><td>Average order value</td><td>Bundles, cart add-ons, free-gift thresholds and prepaid offers</td><td>Average order value</td></tr>
         <tr><td><b>Q3</b></td><td>Product page → Add to Cart</td><td>Product page layout, reviews and EMI options</td><td>Add-to-cart rate</td></tr>
         <tr><td><b>Q4</b></td><td>Landing pages and collections</td><td>Ad landing pages, collection pages and offer pages</td><td>Session → add to cart</td></tr>
