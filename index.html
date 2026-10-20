@@ -8,23 +8,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: Troopod proposal house style. Dark single-column document, phone screenshots set beside each barrier like evidence exhibits. */
+/* Layout: Troopod proposal house style. Dark single-column document with numbered sections; purple is the only accent, green and red appear only in the funnel. */
 :root {
   --bg: #0B0B0D;
   --panel: #131318;
   --panel-2: #1A1A22;
   --line: #26262F;
   --fg: #F2F2F4;
+  --body: #D6D6DE;
   --muted: #8E8EA0;
   --accent: #8B6BF7;
-  --accent-2: #7B5CF5;
   --accent-light: #B49CFB;
   --accent-wash: rgba(139,107,247,.12);
-  --p0: #FF7A7A;
-  --p0-wash: rgba(255,122,122,.12);
-  --p1: #F5C26B;
-  --p1-wash: rgba(245,194,107,.12);
-  --good: #6FD6A8;
+  --accent-line: rgba(139,107,247,.4);
+  --good: #4FD18B;
+  --good-wash: rgba(79,209,139,.12);
+  --bad: #FF6B6B;
+  --bad-wash: rgba(255,107,107,.12);
   --font-body: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   color-scheme: dark;
@@ -33,208 +33,150 @@
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; margin: 0; }
 .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; padding-block: 40px 80px; }
 @media (max-width: 600px) { .wrap { padding-inline: 16px; padding-block: 24px 56px; } }
-h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.15; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; line-height: 1.2; }
 p { margin: 0; }
 a { color: var(--accent-light); }
-a:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
 .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-light); }
-.muted { color: var(--muted); }
-.mono { font-family: var(--font-mono); }
 .num { font-variant-numeric: tabular-nums; }
+.fineprint { font-size: 13px; color: var(--muted); max-width: 80ch; }
 
 /* Header */
-header { display: grid; gap: 22px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+header { display: grid; gap: 20px; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
 .brandrow { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .brandrow img { height: 30px; width: auto; }
 .brandrow .meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-header h1 { font-size: clamp(32px, 5.2vw, 54px); font-weight: 700; letter-spacing: -.02em; max-width: 18ch; }
-header h1 em { font-style: normal; color: var(--accent-light); }
-header .lede { font-size: 18px; color: #C9C9D4; max-width: 64ch; }
-.scope { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { font-family: var(--font-mono); font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--panel); }
+header h1 { font-size: clamp(30px, 4.6vw, 46px); font-weight: 700; letter-spacing: -.02em; }
+header .lede { font-size: 18px; color: var(--body); max-width: 66ch; }
+.objective { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; background: var(--accent-wash); border: 1px solid var(--accent-line); border-radius: 14px; padding: 18px 20px; }
+.objective .eyebrow { white-space: nowrap; }
+.objective p { font-size: 16.5px; }
+@media (max-width: 560px) { .objective { grid-template-columns: 1fr; gap: 6px; } }
 
+/* Sections */
 section { padding-top: 64px; display: grid; gap: 24px; }
-section > .head { display: grid; gap: 10px; max-width: 70ch; }
-section h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 700; letter-spacing: -.015em; }
-section .head p { color: #C9C9D4; }
+.head { display: grid; gap: 10px; max-width: 72ch; }
+.head h2 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; letter-spacing: -.015em; }
+.head p { color: var(--body); }
+.box { background: var(--accent-wash); border: 1px solid var(--accent-line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+.lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-light); }
+.box p { font-size: 14.5px; color: var(--body); }
 
-/* Stat row */
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.stat { background: var(--panel); padding: 20px; display: grid; gap: 6px; align-content: start; }
-.stat b { font-size: 30px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.stat span { font-size: 13px; color: var(--muted); line-height: 1.45; }
-@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* KPI row */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.kpi { background: var(--panel); padding: 18px 20px; display: grid; gap: 4px; align-content: start; }
+.kpi b { font-size: 28px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 13px; color: var(--muted); line-height: 1.45; }
+@media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* Funnel */
-.funnel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 14px; }
-.frow { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; align-items: center; }
-.frow .lab { font-size: 14px; color: var(--muted); }
-.bar { height: 34px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; padding-inline: 12px; font-family: var(--font-mono); font-size: 13px; color: #fff; white-space: nowrap; min-width: max-content; }
-.bar.s1 { background: var(--accent-2); opacity: .85; }
-.bar.s2 { background: var(--accent-light); color: #1a1030; }
-.drop { font-family: var(--font-mono); font-size: 12px; color: var(--p0); padding-left: 144px; }
-.funnel .note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
-@media (max-width: 560px) { .frow { grid-template-columns: 1fr; gap: 4px; } .drop { padding-left: 0; } }
+.funnel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stage { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; grid-template-rows: auto auto auto 1fr; gap: 8px; }
+.stage .name { font-size: 14px; color: var(--muted); }
+.stage .count { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+.rate { justify-self: start; font-family: var(--font-mono); font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--panel-2); color: var(--muted); }
+.stage .note { font-size: 13px; color: var(--muted); line-height: 1.45; align-self: end; }
+.stage.good { border-color: rgba(79,209,139,.45); }
+.stage.good .rate { background: var(--good-wash); color: var(--good); }
+.stage.bad { border-color: rgba(255,107,107,.5); background: linear-gradient(180deg, var(--bad-wash), var(--panel) 70%); }
+.stage.bad .rate { background: var(--bad-wash); color: var(--bad); }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.focusbar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.focusbar div { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; text-align: center; padding: 6px; border-radius: 8px; }
+.focusbar .fb-ok { background: var(--good-wash); color: var(--good); }
+.focusbar .fb-focus { background: var(--bad-wash); color: var(--bad); }
+@media (max-width: 820px) { .funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); } .focusbar { display: none; } }
+@media (max-width: 440px) { .funnel { grid-template-columns: 1fr; } }
 
-/* Groups */
-.groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.gcard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 8px; align-content: start; text-decoration: none; color: var(--fg); }
-.gcard:hover, .gcard:focus-visible { border-color: var(--accent); }
-.gcard h3 { font-size: 17px; font-weight: 600; }
-.gcard .q { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
-.gcard .gids { font-family: var(--font-mono); font-size: 12px; color: var(--accent-light); }
-.gnum { font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); letter-spacing: .08em; }
-.gcard:last-child { border-style: dashed; }
-.ghead { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; padding-top: 36px; margin-top: 12px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
-.ghead .gnum { font-size: 28px; font-weight: 500; line-height: 1; padding-top: 4px; }
-.gtxt { display: grid; gap: 8px; max-width: 72ch; }
-.gtxt h3 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
-.gtxt .q { font-size: 16px; color: var(--accent-light); }
-.gtxt p { color: #C9C9D4; }
-.glist { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.glist li { font-size: 13px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
-.glist a { font-family: var(--font-mono); color: var(--accent-light); text-decoration: none; margin-right: 4px; }
-@media (max-width: 900px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .groups { grid-template-columns: 1fr; } .ghead .gnum { font-size: 22px; } .gtxt h3 { font-size: 22px; } }
-
-/* Scroll map */
-.mapwrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; align-items: start; }
-.spine { position: relative; height: 620px; overflow-y: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
-.spine-inner { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr); }
-.spine-inner img { width: 150px; display: block; }
-.bands { position: relative; }
-.band { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); padding: 6px 12px; font-size: 12.5px; line-height: 1.35; display: grid; gap: 2px; }
-.band b { font-weight: 600; font-size: 13px; }
-.band .pct { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-.band.hot { background: var(--p0-wash); border-top-color: var(--p0); }
-.band.hot b { color: var(--p0); }
-.mapnotes { display: grid; gap: 14px; }
-.callout { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; }
-.callout .k { font-family: var(--font-mono); font-size: 26px; font-weight: 500; color: var(--accent-light); font-variant-numeric: tabular-nums; }
-.callout p { font-size: 14.5px; color: #C9C9D4; }
-@media (max-width: 820px) { .mapwrap { grid-template-columns: 1fr; } .spine { height: 520px; } }
-
-/* Barrier cards */
-.barrier { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; scroll-margin-top: 16px; transition: border-color .15s; }
-.barrier[open] { border-color: rgba(139,107,247,.45); }
-.barrier summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 20px; padding: 22px 26px; border-radius: 16px; }
-.barrier summary::-webkit-details-marker { display: none; }
-.barrier summary:hover { background: var(--panel-2); }
-.barrier summary:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
-.sumtxt { display: grid; gap: 10px; min-width: 0; flex: 1; }
-.chev { flex: 0 0 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); position: relative; }
-.chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 9px; height: 9px; border-right: 2px solid var(--accent-light); border-bottom: 2px solid var(--accent-light); transform: translate(-50%, -50%) rotate(45deg); transition: transform .2s; }
-.barrier[open] .chev::before { top: 55%; transform: translate(-50%, -50%) rotate(-135deg); }
-.bbody { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; padding: 4px 26px 26px; }
-@media (prefers-reduced-motion: reduce) { .chev::before, .barrier { transition: none; } }
-.barrier .txt { display: grid; gap: 16px; align-content: start; min-width: 0; }
-.toggleall { justify-self: start; font: 500 13px var(--font-mono); color: var(--accent-light); background: var(--accent-wash); border: 1px solid rgba(139,107,247,.35); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
-.toggleall:hover { border-color: var(--accent); }
-.toggleall:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
-.tagrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.id { font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
-.sev { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .06em; padding: 3px 8px; border-radius: 6px; }
-.sev.p0 { background: var(--p0-wash); color: var(--p0); }
-.sev.p1 { background: var(--p1-wash); color: var(--p1); }
-.src { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-.barrier h4 { font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+/* Findings */
+.finding { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; scroll-margin-top: 16px; }
+.finding[open] { border-color: var(--accent-line); }
+.finding summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 18px; padding: 20px 24px; border-radius: 16px; }
+.finding summary::-webkit-details-marker { display: none; }
+.finding summary:hover { background: var(--panel-2); }
+.fid { font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); flex: 0 0 auto; }
+.sumtxt { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.sumtxt h3 { font-size: 19px; font-weight: 600; }
+.sumtxt .where { font-size: 13px; color: var(--muted); }
+.chev { flex: 0 0 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); position: relative; }
+.chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 8px; height: 8px; border-right: 2px solid var(--accent-light); border-bottom: 2px solid var(--accent-light); transform: translate(-50%, -50%) rotate(45deg); transition: transform .2s; }
+.finding[open] .chev::before { top: 55%; transform: translate(-50%, -50%) rotate(-135deg); }
+.fbody { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 28px; padding: 4px 24px 24px; }
+.fbody.noshot { grid-template-columns: minmax(0, 1fr); }
+.ftxt { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .blk { display: grid; gap: 6px; }
-.blk .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.blk p, .blk li { font-size: 15px; color: #D6D6DE; }
+.blk p, .blk li { font-size: 15px; color: var(--body); }
 .blk ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
-.fix { background: var(--accent-wash); border: 1px solid rgba(139,107,247,.35); border-radius: 12px; padding: 14px 16px; }
-.fix .lbl { color: var(--accent-light); }
-.access { background: var(--p1-wash); border: 1px solid rgba(245,194,107,.4); border-radius: 12px; padding: 14px 16px; }
-.access .lbl { color: var(--p1); }
-.metric { font-size: 13px; color: var(--muted); }
-.metric b { color: var(--fg); font-weight: 500; }
-.shots { display: flex; gap: 14px; align-items: flex-start; }
-figure { margin: 0; display: grid; gap: 8px; width: 210px; }
-.phone { border: 6px solid #22222B; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+figure { margin: 0; display: grid; gap: 8px; }
+.phone { border: 6px solid #22222B; border-radius: 22px; overflow: hidden; background: #000; }
 .phone img { display: block; width: 100%; height: auto; }
 figcaption { font-size: 12px; color: var(--muted); line-height: 1.4; }
-.statpair { display: flex; flex-wrap: wrap; gap: 10px; }
-.statpair div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; display: grid; gap: 2px; }
-.statpair b { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--accent-light); }
-.statpair span { font-size: 12px; color: var(--muted); }
-@media (max-width: 900px) {
-  .bbody { grid-template-columns: 1fr; }
-  .shots { overflow-x: auto; padding-bottom: 6px; }
-  figure { flex: 0 0 190px; width: 190px; }
-}
-@media (max-width: 600px) { .barrier summary { padding: 18px; } .bbody { padding: 4px 18px 18px; } }
-
-.shots.stack { flex-direction: column; }
-figure.wide { width: 300px; }
-.shotimg { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
-.shotimg img { display: block; width: 100%; height: auto; }
-table.mini { min-width: 560px; font-size: 13px; }
-table.mini th, table.mini td { padding: 9px 11px; }
-@media (max-width: 900px) { .shots.stack { flex-direction: row; } figure.wide { flex: 0 0 280px; width: 280px; } }
+@media (max-width: 820px) { .fbody { grid-template-columns: 1fr; } figure { max-width: 220px; } }
+@media (prefers-reduced-motion: reduce) { .chev::before { transition: none; } }
 
 /* Roadmap */
-.phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.phase { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 12px; align-content: start; }
-.phase .when { font-family: var(--font-mono); font-size: 12px; color: var(--accent-light); }
-.phase h3 { font-size: 19px; font-weight: 600; }
-.phase ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14.5px; color: #D6D6DE; }
-.phase .out { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
-@media (max-width: 860px) { .phases { grid-template-columns: 1fr; } }
+.phases { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.phase { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 8px; }
+.phase .pn { font-family: var(--font-mono); font-size: 12px; color: var(--accent-light); }
+.phase h3 { font-size: 17px; font-weight: 600; }
+.phase p { font-size: 13.5px; color: var(--body); line-height: 1.5; }
+.phase .when { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 8px; }
+@media (max-width: 960px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .phases { grid-template-columns: 1fr; } }
 
 /* Tables */
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 700px; }
 th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-family: var(--font-mono); font-weight: 500; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel); }
-td { background: var(--bg); }
+td { background: var(--bg); color: var(--body); }
+td b { color: var(--fg); font-weight: 600; }
 td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+td .lift { display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--accent-light); }
 tr.hl td { background: var(--accent-wash); }
 tr:last-child td { border-bottom: 0; }
-.fineprint { font-size: 13px; color: var(--muted); max-width: 80ch; }
 
 /* Commercials */
-.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.plan { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 18px; align-content: start; }
-.plan.featured { border-color: rgba(139,107,247,.55); background: linear-gradient(180deg, var(--accent-wash), var(--panel) 60%); }
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.plan { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; grid-template-rows: auto 1fr; gap: 18px; }
+.plan.featured { border-color: var(--accent-line); }
 .planhead { display: grid; gap: 6px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-.price { font-size: 38px; font-weight: 700; letter-spacing: -.02em; }
+.planhead .tag { justify-self: start; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; background: var(--accent-wash); color: var(--accent-light); }
+.price { font-size: 34px; font-weight: 700; letter-spacing: -.02em; }
 .price .per { font-size: 15px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
 .planline { font-size: 15px; color: var(--muted); }
-.plan ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; color: #D6D6DE; }
-@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
-
-.tc { margin-top: 6px; }
-.perfcomm { margin-top: 10px; border: 1px dashed rgba(245,194,107,.45); border-radius: 16px; padding: 24px; display: grid; gap: 18px; background: var(--panel); }
-.perfhead { display: grid; gap: 8px; max-width: 72ch; }
-.perfhead .eyebrow { color: var(--p1); }
-.perfhead h3 { font-size: 22px; font-weight: 600; }
-.perfhead p { color: #C9C9D4; font-size: 15px; }
-.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.track2 { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; align-content: start; }
-.trackhead { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
-.trk { font-weight: 600; font-size: 16px; }
-.pill { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; background: var(--p1-wash); color: var(--p1); }
-.track2 > p { font-size: 14.5px; color: #D6D6DE; }
+.plan ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; align-content: start; font-size: 15px; color: var(--body); }
+.plan ul b { color: var(--fg); font-weight: 600; }
+.perf { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 18px; }
+.perf .phd { display: grid; gap: 8px; max-width: 72ch; }
+.perf .phd h3 { font-size: 21px; font-weight: 600; }
+.perf .phd p { color: var(--body); font-size: 15px; }
+.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.trk { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; grid-template-rows: auto 1fr auto; gap: 14px; }
+.trkhead { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.trkhead b { font-size: 16px; font-weight: 600; }
+.pill { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; background: var(--accent-wash); color: var(--accent-light); }
+.trk > p { font-size: 14.5px; color: var(--body); }
 .fees { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.fee { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.fee { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; grid-template-rows: auto auto 1fr; gap: 4px; min-height: 118px; }
 .fee .when { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.fee b { font-size: 22px; font-weight: 700; color: var(--fg); }
+.fee b { font-size: 21px; font-weight: 700; }
 .fee span:last-child { font-size: 13px; color: var(--muted); line-height: 1.4; }
-.total { font-size: 14px; color: var(--muted); }
-.total b { color: var(--fg); }
-.terms summary { cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
-.terms summary:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; }
-.terms ul { margin: 12px 0 0; padding-left: 18px; display: grid; gap: 7px; font-size: 14px; color: #D6D6DE; }
-@media (max-width: 820px) { .tracks { grid-template-columns: 1fr; } }
-@media (max-width: 460px) { .fees { grid-template-columns: 1fr; } .perfcomm { padding: 18px; } }
+.notes summary { cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
+.notes ul { margin: 12px 0 0; padding-left: 18px; display: grid; gap: 7px; font-size: 14px; color: var(--body); }
+@media (max-width: 820px) { .plans, .tracks { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .fees { grid-template-columns: 1fr; } .perf, .plan { padding: 18px; } .fee { min-height: 0; } }
 
-/* Asks */
-.asks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; counter-reset: ask; }
-.ask { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
-.ask::before { counter-increment: ask; content: counter(ask); font-family: var(--font-mono); color: var(--accent-light); font-size: 14px; }
-.ask p { font-size: 14.5px; color: #D6D6DE; }
-.ask b { color: var(--fg); font-weight: 600; }
-@media (max-width: 700px) { .asks { grid-template-columns: 1fr; } }
+/* Next steps */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: st; }
+.steps li { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; grid-template-rows: auto 1fr; gap: 8px; counter-increment: st; }
+.steps li::before { content: "0" counter(st); font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); }
+.steps b { font-size: 16px; font-weight: 600; display: block; margin-bottom: 4px; color: var(--fg); }
+.steps span { font-size: 14px; color: var(--body); }
+@media (max-width: 860px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .steps { grid-template-columns: 1fr; } }
 
 footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
 footer img { height: 20px; width: auto; }
@@ -246,702 +188,258 @@ footer img { height: 20px; width: auto; }
 <header>
   <div class="brandrow">
     <img src="img/troopod-logo.png" alt="Troopod">
-    <span class="meta">Prepared 16 Oct 2026 · For the Bombae team</span>
+    <span class="meta">Prepared for Bombae · 20 Oct 2026</span>
   </div>
-  <span class="eyebrow">Troopod CRO proposal · Bombae</span>
-  <h1>Bombae shoppers want to buy. <em>The journey keeps getting in their way.</em></h1>
-  <p class="lede">This proposal turns the findings from our Bombae CRO baseline into a CRO programme for mybombae.in. It covers only the barriers a shopper hits on the way from landing to placing an order. Every product page runs on the same theme, cart and checkout, so we show each barrier on one worked example: the Fuzzoff 6-in-1 bikini trimmer page, Bombae's second hero product. All screenshots were taken on the live site on a 375px phone screen on 16 Oct 2026.</p>
-  <div class="scope">
-    <span class="chip">mybombae.in</span>
-    <span class="chip">Example page: Fuzzoff 6-in-1 PDP</span>
-    <span class="chip">Data: 13 Sep – 12 Oct 2026</span>
-    <span class="chip">10 journey barriers · 3 phases · 8 weeks</span>
+  <span class="eyebrow">Troopod × Bombae · CRO proposal</span>
+  <h1>Conversion Rate Optimisation Proposal</h1>
+  <p class="lede">This proposal sets out how Troopod will improve conversion on mybombae.in. It covers current performance, the journey we will work on first, the plan and timeline, the expected impact and the commercials.</p>
+  <div class="objective">
+    <span class="eyebrow">Objective</span>
+    <p>Increase Bombae's conversion rate using the Troopod CRO engine, starting with the Add to Cart to Order journey.</p>
   </div>
 </header>
 
-<section id="why">
+<section id="funnel">
   <div class="head">
-    <span class="eyebrow">Where Bombae stands today</span>
-    <h2>People want the products. They are lost after they decide to buy.</h2>
-    <p>Bombae's hero products turn views into carts well. Most orders are lost after the shopper has decided to buy: between Add to Cart and checkout, and again inside checkout. Both hero products show the same pattern.</p>
+    <span class="eyebrow">01 · Current performance</span>
+    <h2>Store funnel, last 30 days</h2>
+    <p>Bombae converts 1.16% of sessions into orders. Shoppers add products to cart at a healthy rate, but 45% of carts never reach checkout and about 3 in 4 checkouts don't complete. The Add to Cart to Order journey is where we will focus first.</p>
   </div>
-  <div class="stats">
-    <div class="stat"><b>1.16%</b><span>real conversion rate: 9,537 Shopify orders ÷ 8,19,477 sessions</span></div>
-    <div class="stat"><b>₹1,740</b><span>average order value</span></div>
-    <div class="stat"><b>54.6%</b><span>of carts start checkout, so 45% never reach it</span></div>
-    <div class="stat"><b>~24%</b><span>of started checkouts become orders (Shopify orders ÷ GA4 checkouts)</span></div>
+  <div class="kpis">
+    <div class="kpi"><b>1.16%</b><span>Conversion rate (orders ÷ sessions)</span></div>
+    <div class="kpi"><b>9,537</b><span>Orders</span></div>
+    <div class="kpi"><b>₹1,740</b><span>Average order value</span></div>
+    <div class="kpi"><b>8,19,477</b><span>Sessions</span></div>
   </div>
-  <div class="funnel" role="img" aria-label="Store funnel: 72,015 add to carts, 39,286 checkouts, 9,537 Shopify orders">
-    <div class="frow"><span class="lab">Add to cart</span><div class="bar num" style="width:100%">72,015</div></div>
-    <div class="drop">−45.4% never start checkout</div>
-    <div class="frow"><span class="lab">Checkout</span><div class="bar s1 num" style="width:54.6%">39,286 · 54.6%</div></div>
-    <div class="drop">−75.7% start checkout but don't order</div>
-    <div class="frow"><span class="lab">Orders</span><div class="bar s2 num" style="width:13.2%">9,537 · 24.3%</div></div>
-    <p class="note">Store-wide, 13 Sep – 12 Oct 2026. Add to carts and checkouts come from GA4, orders from Shopify (GA4 records only 7,242). The hero pages follow the same shape. Hairess: 47.8% cart → checkout and 22.7% checkout → purchase. Fuzzoff 6-in-1: 44.7% and 28.0% (GA4).</p>
+  <div class="focusbar" aria-hidden="true"><div class="fb-ok">Healthy</div><div class="fb-focus">Focus journey: Add to Cart → Order</div></div>
+  <div class="funnel">
+    <div class="stage good"><span class="name">Sessions</span><span class="count num">8,19,477</span><span class="rate">Starting point</span><p class="note">Traffic volume is strong.</p></div>
+    <div class="stage good"><span class="name">Add to cart</span><span class="count num">72,015</span><span class="rate">8.8% of sessions</span><p class="note">Shoppers find products they want and add them to cart.</p></div>
+    <div class="stage bad"><span class="name">Checkout started</span><span class="count num">39,286</span><span class="rate">54.6% of carts</span><p class="note">45% of carts never reach checkout.</p></div>
+    <div class="stage bad"><span class="name">Order placed</span><span class="count num">9,537</span><span class="rate">24.3% of checkouts</span><p class="note">About 3 in 4 checkouts don't complete.</p></div>
   </div>
+  <div class="legend"><span><i style="background:var(--good)"></i>Healthy stage</span><span><i style="background:var(--bad)"></i>Focus stage</span></div>
+  <p class="fineprint">13 Sep – 12 Oct 2026. Sessions and orders from Shopify; add to cart and checkout events from GA4. Full detail in the <a href="https://prayrit-troopod.github.io/bombae-cro-baseline/">Bombae CRO baseline report</a>.</p>
 </section>
 
 <section id="journey">
   <div class="head">
-    <span class="eyebrow">How we've organised the findings</span>
-    <h2>Ten barriers in three groups, starting closest to the order</h2>
-    <p>We work back from the order. First we stop losing shoppers who have already decided to buy. Next we answer the doubts that stop interested shoppers from committing. Then we bring the proof up to where shoppers can see it. Every barrier applies to all product pages.</p>
-  </div>
-  <div class="groups">
-    <a class="gcard" href="#g1"><span class="gnum">01</span><h3>Unblock the path to purchase</h3><p class="q">She has already decided to buy. The site then makes it hard to pay.</p><span class="gids">B1 · B2 · B3 · B4</span></a>
-    <a class="gcard" href="#g2"><span class="gnum">02</span><h3>Remove the doubts at the moment of decision</h3><p class="q">She wants it, but is checking whether she can afford it and trust it.</p><span class="gids">B5 · B6</span></a>
-    <a class="gcard" href="#g3"><span class="gnum">03</span><h3>Put the proof where shoppers actually look</h3><p class="q">She is still deciding, and the evidence that would convince her is where she never scrolls.</p><span class="gids">B7 · B8 · B9</span></a>
-    <a class="gcard" href="#g4"><span class="gnum">+</span><h3>Make the pages load faster</h3><p class="q">Add-on, separately charged.</p><span class="gids">B10</span></a>
+    <span class="eyebrow">02 · Focus journey</span>
+    <h2>What we found between Add to Cart and Order</h2>
+    <p>We tested the live journey on a phone. Every product page shares the same theme, cart and checkout, so each issue below applies across the store. Screenshots are from the Fuzzoff 6-in-1 page, Bombae's second-highest revenue product. Select an issue to see the detail.</p>
   </div>
 
-  <div class="mapwrap">
-    <div class="spine" tabindex="0" aria-label="Full Fuzzoff page on mobile with section positions">
-      <div class="spine-inner">
-        <img src="img/11-full.jpg" alt="Full-length screenshot of the Fuzzoff 6-in-1 product page on mobile">
-        <div class="bands">
-          <div class="band" style="top:0%"><b>Gallery</b><span class="pct">0–7%</span></div>
-          <div class="band" style="top:6.8%"><b>Title · price · EMI</b><span class="pct">7–10%</span></div>
-          <div class="band" style="top:9.6%"><b>Bullets · Add to Cart</b><span class="pct">10–14%</span></div>
-          <div class="band" style="top:14%"><b>Gift voucher · delivery check</b><span class="pct">14–18%</span></div>
-          <div class="band hot" style="top:18.2%"><b>Video feed: what's inside, results</b><span class="pct">18–26% · on Hairess ~23% reach this</span></div>
-          <div class="band" style="top:25.6%"><b>Best bits + feature banners</b><span class="pct">26–49% · a quarter of the page</span></div>
-          <div class="band" style="top:49.3%"><b>"For the truth seekers" FAQ</b><span class="pct">49–64%</span></div>
-          <div class="band hot" style="top:64.1%"><b>Ratings, customer photos, reviews</b><span class="pct">64–78% · on Hairess ~6% reach this</span></div>
-          <div class="band" style="top:78.4%"><b>You may also like</b><span class="pct">78–87%</span></div>
-          <div class="band" style="top:87.4%"><b>Footer</b><span class="pct">87–100%</span></div>
+  <details class="finding" id="f1">
+    <summary><span class="fid">01</span><div class="sumtxt"><h3>Add to Cart has no next step</h3><span class="where">Product page → Cart</span></div><span class="chev" aria-hidden="true"></span></summary>
+    <div class="fbody">
+      <div class="ftxt">
+        <div class="blk"><span class="lbl">What happens</span>
+          <ul>
+            <li>After Add to Cart, a small "Product added to cart" message shows for about 2 seconds. It can't be tapped.</li>
+            <li>Both Add to Cart buttons turn into a "− 1 +" quantity selector. No cart opens and no Checkout button appears.</li>
+            <li>The scroll-to-top button sits on top of the "+" on the sticky bar.</li>
+          </ul>
+        </div>
+        <div class="blk"><span class="lbl">Impact</span>
+          <p>To continue, shoppers have to find the small bag icon at the top right. On the Hairess page, about 7,700 Add to Cart taps led to only 507 taps on the cart icon. Store-wide, 45% of carts never start checkout.</p>
+        </div>
+      </div>
+      <figure><div class="phone"><img src="img/03-atc-toast.jpg" alt="Fuzzoff page after Add to Cart: a short message and a quantity selector, with no cart or checkout button"></div><figcaption>Right after Add to Cart.</figcaption></figure>
+    </div>
+  </details>
+
+  <details class="finding" id="f2">
+    <summary><span class="fid">02</span><div class="sumtxt"><h3>Returning shoppers see no buy button</h3><span class="where">Product page, item already in cart</span></div><span class="chev" aria-hidden="true"></span></summary>
+    <div class="fbody">
+      <div class="ftxt">
+        <div class="blk"><span class="lbl">What happens</span>
+          <p>When a product is already in the cart, for example for a shopper returning from a retargeting ad, every buy button on its page shows only "− 1 +". There is no Add to Cart, Buy Now or Checkout button.</p>
+        </div>
+        <div class="blk"><span class="lbl">Impact</span>
+          <p>Shoppers who come back to complete a purchase are the most likely to buy, and the page gives them nothing to tap that moves them forward.</p>
+        </div>
+      </div>
+      <figure><div class="phone"><img src="img/06-video-feed.jpg" alt="Product page with the item already in cart, showing only quantity selectors"></div><figcaption>Page reloaded with the item in cart.</figcaption></figure>
+    </div>
+  </details>
+
+  <details class="finding" id="f3">
+    <summary><span class="fid">03</span><div class="sumtxt"><h3>The cart drawer pulls attention away from checkout</h3><span class="where">Cart</span></div><span class="chev" aria-hidden="true"></span></summary>
+    <div class="fbody">
+      <div class="ftxt">
+        <div class="blk"><span class="lbl">What happens</span>
+          <ul>
+            <li>An open coupon code field and "View all offers (8)" sit at the top of the cart, above everything else.</li>
+            <li>The cart says "You have unlocked all rewards!" while the announcement bar promises a free tote above ₹2,500.</li>
+            <li>The add-on product cards are cut off, so their names can't be read. On Hairess, the cart suggests body wax strips instead of the matching Heat Protectant.</li>
+            <li>The prepaid incentive is ₹20 off UPI.</li>
+          </ul>
+        </div>
+        <div class="blk"><span class="lbl">Impact</span>
+          <p>A coupon field at the top sends shoppers away to look for codes, and some don't come back. Unclear rewards and add-ons remove reasons to complete the order or add one more item.</p>
+        </div>
+      </div>
+      <figure><div class="phone"><img src="img/05-cart-drawer.jpg" alt="Cart drawer with the coupon field at the top, cut-off add-on cards and a ₹20 UPI offer"></div><figcaption>Cart drawer, opened from the header.</figcaption></figure>
+    </div>
+  </details>
+
+  <details class="finding" id="f4">
+    <summary><span class="fid">04</span><div class="sumtxt"><h3>Most checkouts don't complete, and the reason isn't visible yet</h3><span class="where">Checkout (GoKwik)</span></div><span class="chev" aria-hidden="true"></span></summary>
+    <div class="fbody noshot">
+      <div class="ftxt">
+        <div class="blk"><span class="lbl">What happens</span>
+          <p>9,537 of 39,286 started checkouts become orders (24.3%). Every step, from phone number and OTP to address and payment, runs inside GoKwik and isn't visible in GA4.</p>
+        </div>
+        <div class="blk"><span class="lbl">Impact</span>
+          <p>This is the largest drop in the store funnel. The re-audit will map each checkout step using GoKwik's data, so the fixes are based on where shoppers actually leave.</p>
         </div>
       </div>
     </div>
-    <div class="mapnotes">
-      <div class="callout"><span class="k">61%</span><p>of Hairess mobile visitors leave before 20% of the page. Fuzzoff uses the same theme and section order, so we expect the same shape. On Fuzzoff, 20% depth is the top of the video feed.</p></div>
-      <div class="callout"><span class="k">6.5×</span><p>more attention per visitor on reviews than on the hero image, for the few who reach them. On Fuzzoff the reviews start at 64% of the page, after the FAQ.</p></div>
-      <div class="callout"><span class="k">~5%</span><p>of attention lands on the feature banner block on Hairess, even though it is the tallest section on the page. On Fuzzoff, "Best bits" and the banners fill 26–49% of the page.</p></div>
-      <p class="fineprint">The strip shows the example page: scroll it to see the full Fuzzoff 6-in-1 PDP. Hairess and the other product pages use the same section order. Section positions were measured on the live page. Reach and attention figures come from Microsoft Clarity on the Hairess page. Adding Clarity tracking to every PDP is part of week 1.</p>
-    </div>
-  </div>
-</section>
-
-<section id="barriers">
-  <div class="head">
-    <span class="eyebrow">The barriers, group by group</span>
-    <h2>What we saw, why it costs orders, and what we will change</h2>
-    <p>Each barrier applies to the whole store. The screenshots show it on the example page, the Fuzzoff 6-in-1 PDP, and the text says where else it shows up. P0 means fix or test in the first sprint. P1 follows once the buy path is unblocked. Tap a barrier to open it.</p>
-  </div>
-  <button type="button" class="toggleall" id="toggleall" aria-expanded="false">Expand all barriers</button>
-
-
-  <div class="ghead" id="g1">
-    <span class="gnum">01</span>
-    <div class="gtxt">
-      <h3>Unblock the path to purchase</h3>
-      <p class="q">She has already decided to buy. The site then makes it hard to pay.</p>
-      <p>Every shopper here has chosen the product, so each fix wins back an order that was already ours. That makes these the fastest, cheapest gains, and the place to start.</p>
-      <ul class="glist"><li><a href="#b1">B1</a> Add to Cart leads nowhere</li><li><a href="#b2">B2</a> Checkout drop-off</li><li><a href="#b3">B3</a> No buy button for returning carts</li><li><a href="#b4">B4</a> Cart drawer distracts</li></ul>
-    </div>
-  </div>
-
-  <details class="barrier" id="b1">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B1</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-        <h4>Add to Cart leads nowhere: no cart opens and no Checkout button appears</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>After tapping Add to Cart, a grey "Product added to cart" toast shows for about 2 seconds over the title. It can't be tapped.</li>
-          <li>Both Add to Cart buttons turn into a "− 1 +" stepper. No cart drawer opens and no Checkout button appears.</li>
-          <li>The round scroll-to-top button sits on top of the sticky stepper's "+".</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>To continue, the shopper has to find the small bag icon at the top right. On Hairess, about 7,700 Add to Cart taps led to only 507 taps on the cart icon. Store-wide, 45% of carts never start checkout. On Fuzzoff, 55% never do. The GoKwik drawer with a Checkout button already works. It just doesn't open after Add to Cart.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Open the GoKwik cart drawer on Add to Cart, with Checkout in view.</li>
-          <li>A/B test this against a "Buy Now" button that goes straight to checkout.</li>
-          <li>Hide the scroll-to-top button while the sticky bar is visible.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>cart → checkout (54.6% store-wide)</b></p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/03-atc-toast.jpg" alt="Product added to cart toast and stepper with scroll-to-top button covering plus"></div><figcaption>0.7s after tapping: a toast and a stepper. The scroll-to-top button covers "+".</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b2">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B2</span><span class="sev p0">P0</span><span class="src">GA4 + Shopify</span></div>
-        <h4>About 3 in 4 started checkouts don't become orders, and we can't see why yet</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw</span>
-        <p>Store-wide, Shopify's 9,537 orders are about 24% of the 39,286 checkouts GA4 records. On the example page, 6,763 Fuzzoff checkouts led to 1,896 purchases in GA4 (28.0%). Every step from phone number and OTP to address and payment runs inside GoKwik, and none of that reaches GA4 in a usable form.</p>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>This is the largest drop in the journey. Raising store checkout completion from 24% to 30% would mean about 2,250 more orders a month.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Pull the GoKwik step funnel (phone → OTP → address → payment → order) and the split by payment method.</li>
-          <li>Test a prepaid offer shown before the payment step, and make any COD fee clear.</li>
-          <li>Show the free gift as a line in the order summary.</li>
-        </ul>
-      </div>
-      <div class="blk access"><span class="lbl">Needed first: GoKwik access</span>
-        <p>We need access to the GoKwik merchant dashboard before we can recommend a credible fix for checkout. Without the step funnel, payment-method split and drop-off reasons, we can only guess where the 3 in 4 shoppers leave. The tests above are starting hypotheses, and we will confirm or replace them once the GoKwik data is in.</p>
-      </div>
-      <p class="metric">Primary metric: <b>checkout → order (~24% store-wide)</b></p>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b3">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B3</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP</span></div>
-        <h4>Returning shoppers with the item already in their cart see no buy button at all</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <p>We reloaded the example page with Fuzzoff already in the cart. The baseline audit found the same on Hairess. Every buy button, in the page and in the sticky bar, showed only "− 1 +". There was no Add to Cart, Buy Now or Checkout anywhere.</p>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>Shoppers coming back from a cart-abandonment ad or WhatsApp reminder are the most likely to buy. They land on a page with nothing to tap that moves them forward.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <p>When the item is already in the cart, show "Checkout · [price]" beside the quantity on every PDP, in the page and in the sticky bar.</p>
-      </div>
-      <p class="metric">Primary metric: <b>checkout starts from retargeting traffic</b></p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/06-video-feed.jpg" alt="Page reloaded with item in cart shows only quantity steppers"></div><figcaption>After a reload: steppers only, top and bottom.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b4">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B4</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
-        <h4>The cart drawer pushes shoppers to hunt for coupons and hides the next reward</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>The drawer says "You have unlocked all rewards!" at ₹1,199 (and at ₹1,799 on Hairess). Meanwhile, the announcement bar rotates "Free Tote Bag on order above ₹2,500".</li>
-          <li>An open "Enter coupon code" field and "View all offers (8)" sit above everything else.</li>
-          <li>The add-on cards under "Offers Unlocked!" are cut off, so the product names can't be read.</li>
-          <li>The prepaid incentive is ₹20 off UPI.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>A coupon field at the top sends shoppers off to search for codes, and some never come back. Telling shoppers they have "all rewards" removes the reason to add one more item. On Hairess, the drawer cross-sells body wax strips instead of the ₹399 Heat Protectant.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Collapse the coupon field behind an "Have a code?" link.</li>
-          <li>Show a progress bar to the next reward, for example "₹801 away from a free pouch".</li>
-          <li>Show one readable add-on card that matches the product in the cart (Soothing Spray with Fuzzoff, Heat Protectant with Hairess). Test a larger prepaid incentive.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>cart → checkout</b> · AOV · prepaid share</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/05-cart-drawer.jpg" alt="GoKwik cart drawer with coupon field, cut-off offer cards and ₹20 UPI incentive"></div><figcaption>Cart drawer, opened from the header bag icon.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <div class="ghead" id="g2">
-    <span class="gnum">02</span>
-    <div class="gtxt">
-      <h3>Remove the doubts at the moment of decision</h3>
-      <p class="q">She wants it, but is checking whether she can afford it and trust it.</p>
-      <p>These shoppers are one answer away from Add to Cart. The page either has no answer, or gives two that contradict each other.</p>
-      <ul class="glist"><li><a href="#b5">B5</a> EMI screen has no way to buy</li><li><a href="#b6">B6</a> Mixed warranty and delivery messages</li></ul>
-    </div>
-  </div>
-
-  <details class="barrier" id="b5">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B5</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-        <h4>"Buy on EMI" opens a screen with no way to buy, and dates that are months out of date</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>Tapping "Buy on EMI" opens "Pay only ₹400 Now". The only button on that screen is the close icon.</li>
-          <li>The instalments are dated "3rd May" and "3rd Jun". It is October.</li>
-          <li>The last line, "Select Bombae Pay Later on the payment screen", is plain text and can't be tapped.</li>
-        </ul>
-      </div>
-      <div class="statpair">
-        <div><b>23%</b><span>of all taps on Hairess go to EMI</span></div>
-        <div><b>5,535</b><span>modal opens</span></div>
-        <div><b>5,291</b><span>closes</span></div>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>The same modal runs on both hero PDPs. Tapping EMI is the strongest buying signal on the page. These shoppers want the product and are checking whether they can afford it. When they decide they can, the page sends them back to the start.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Add a "Buy on EMI · Pay ₹400 today" button inside the modal (₹600 on Hairess). One tap adds the item to the cart and opens GoKwik checkout with Bombae Pay Later already selected.</li>
-          <li>Generate the instalment dates from today's date.</li>
-          <li>Show "or ₹400 × 3 at 0% interest" in line with the price, on every PDP.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>EMI modal → checkout rate</b> · PDP conversion</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/02-emi-modal.jpg" alt="Bombae Pay Later modal with stale May and June dates and no buy button"></div><figcaption>The EMI modal: dated May and June, no buy button.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b6">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B6</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP</span></div>
-        <h4>Mixed messages on warranty and delivery chip away at trust</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>The bullets and the "Best bits" badge say <b>1-year warranty</b>. The text under the sticky Add to Cart says <b>1.5-Years Exclusive Warranty</b>. Both are visible on the same screen.</li>
-          <li>The delivery box reads "Delivery estimate unavailable" until the shopper types a pincode. No delivery date shows by default.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>Hairess has the same problem: "2-year warranty" in the bullets, "1.5-Years" at the sticky button, and an announcement bar that says "Best Selling Women's Trimmer in India" on a hair styler. Two warranty numbers make shoppers doubt both. On Hairess, pincode checks were 7.8% of all taps, so delivery timing clearly matters to buyers.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Use one warranty number per product everywhere, and make the announcement bar match the product.</li>
-          <li>Add a trust row under the price on every PDP: warranty · easy returns · "Delivery by [date]", estimated from the visitor's location.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>add-to-cart rate</b> · pincode check usage</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/04-atc-stepper.jpg" alt="Bullets say 1-year warranty while sticky bar says 1.5-Years warranty; delivery estimate unavailable"></div><figcaption>"1-year" in the bullets, "1.5-Years" in the sticky bar, delivery "unavailable".</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <div class="ghead" id="g3">
-    <span class="gnum">03</span>
-    <div class="gtxt">
-      <h3>Put the proof where shoppers actually look</h3>
-      <p class="q">She is still deciding, and the evidence that would convince her is where she never scrolls.</p>
-      <p>Once the buy path works, more shoppers need to reach it. This group moves reviews, answers and results into the first screen, where most visitors make up their minds.</p>
-      <ul class="glist"><li><a href="#b7">B7</a> Reviews sit too low</li><li><a href="#b8">B8</a> First-time questions hidden</li><li><a href="#b9">B9</a> First screen has no proof</li></ul>
-    </div>
-  </div>
-
-  <details class="barrier" id="b7">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B7</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-        <h4>Reviews and customer photos sit below the point where most shoppers stop</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>Ratings and customer photos start at 64% of the page, after the FAQ. Written reviews start at 71%.</li>
-          <li>The customer photos show only unboxings. None of them show a result.</li>
-          <li>"Best bits" and the feature banners take up 26–49% of the page and repeat what the bullets already say.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>On Hairess, reviews start at 62% of the page and only about 6% of visitors scroll that far. Those who do give them 6.5× more attention than the hero image. On every PDP, the proof that sells is in the section almost nobody reaches.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Put a review snippet carousel directly under Add to Cart on every PDP, led by reviews that answer the product's main doubt ("no cuts" for Fuzzoff, "works on curly hair" for Hairess).</li>
-          <li>Cut the banner block to 2 visuals and move the video feed and reviews above it.</li>
-          <li>Ask buyers for result photos and videos in post-purchase review requests.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>add-to-cart rate</b> · share of visitors who see a review</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/07-best-bits.jpg" alt="Best bits icons and feature banner"></div><figcaption>Best bits and feature banners, 26–49% of the page.</figcaption></figure>
-      <figure><div class="phone"><img src="img/09-reviews.jpg" alt="Rating breakdown and customer photos"></div><figcaption>Ratings and customer photos at 64%. Every photo is an unboxing.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b8">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B8</span><span class="sev p1">P1</span><span class="src">Example: Fuzzoff PDP + competitor review</span></div>
-        <h4>First-time buyer questions are hidden in closed accordions halfway down</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <p>"I'm new to trimming, how to get started?", "Does the trimmer have any side effects?" and "Where does this trimmer work?" are the questions a first-time buyer has. They sit at 49% of the page, all closed, under the heading "for the truth seekers".</p>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>On Hairess, 2,920 taps went to the same accordion, so shoppers do look for these answers. Hairess buyers have their own first-timer questions ("will it straighten curly hair?", "will it fry my hair?"), and the page doesn't answer them either. Competitors answer them upfront: Sirona with how-to guides by body area, Alan Truman with curly-hair guidance.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Add a suitability chip row near the price, with each chip linking to a 10-second how-to clip. On Fuzzoff: "Where it works" (brows, face, underarms, bikini, legs). On Hairess: "Works on: straight · wavy · curly · thick".</li>
-          <li>Open the top two first-timer answers by default and move them above the banners.</li>
-          <li>Add a one-line cost comparison against repeat salon visits, using real local salon prices.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>add-to-cart rate for new visitors</b> · FAQ opens</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/08-faq.jpg" alt="Closed FAQ accordion titled for the truth seekers"></div><figcaption>Key first-timer questions, closed, at 49% depth.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <details class="barrier" id="b9">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B9</span><span class="sev p0">P0</span><span class="src">Example: Fuzzoff PDP + Clarity (Hairess data)</span></div>
-        <h4>The first screen is a pack shot and a block of text, with no result and no proof</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>The first screen shows a pack shot, the title, "100% painfree trim", the price and the EMI box. The claim has nothing on screen to back it up.</li>
-          <li>Under the EMI box, four emoji bullet points in running text carry the main selling points.</li>
-          <li>The rating (4.73, 400 reviews) is plain text. None of the customer photos appear here.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>On Hairess, 46% of all attention goes to the top 10% of the page, and most visitors decide from that screen alone. On Fuzzoff the first question is "will it cut me?" On Hairess it is "will it work on my hair?" Neither first screen answers it.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change</span>
-        <ul>
-          <li>Make gallery slide 2 on every hero PDP a 6-second result loop: a smooth, no-nick trim for Fuzzoff, a before and after on real hair for Hairess.</li>
-          <li>Replace the emoji bullets with 4 icon USPs (on Fuzzoff: bikini-safe, waterproof, 6 heads, warranty).</li>
-          <li>Put a strip of review photos and "400 reviews" next to the stars, with a link to the reviews.</li>
-        </ul>
-      </div>
-      <p class="metric">Primary metric: <b>view → add to cart (12.2%)</b> · reach at 20% depth</p>
-    </div>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/01-fold.jpg" alt="Fuzzoff first screen on mobile: pack shot, title, price, EMI box"></div><figcaption>First screen on a 375px phone. Pack shot, then price, then text.</figcaption></figure>
-    </div>
-  </div>
-  </details>
-
-  <div class="ghead" id="g4">
-    <span class="gnum">+</span>
-    <div class="gtxt">
-      <h3>Make the pages load faster</h3>
-      <p class="q">Add-on, separately charged.</p>
-      <p>A slow page loses shoppers before any of the above can help. It lifts every group, but it is a separate technical workstream.</p>
-      <ul class="glist"><li><a href="#b10">B10</a> Pages are heavy</li></ul>
-    </div>
-  </div>
-
-  <details class="barrier" id="b10">
-    <summary>
-      <div class="sumtxt">
-        <div class="tagrow"><span class="id">B10</span><span class="sev p0">P0</span><span class="src">TrooPerformance audit · Lighthouse 13.5, mobile · 16 Oct 2026</span></div>
-        <h4>Product pages are heavy, so many shoppers leave before they finish loading</h4>
-      </div>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="bbody">
-    <div class="txt">
-      <div class="blk"><span class="lbl">What we saw on the example page</span>
-        <ul>
-          <li>The Fuzzoff 6-in-1 page scores <b>37/100</b> on Google PageSpeed for mobile.</li>
-          <li>The main product image reaches the browser in half a second, then waits another 1.9 seconds behind scripts before it appears.</li>
-          <li>The page ships 2.5 MB of JavaScript, and over 1 MB of it is never used. Render-blocking files hold back the first paint by 2.1 seconds.</li>
-          <li>The phone's main thread is busy for 12.9 seconds.</li>
-          <li>For real shoppers over the last 28 days, the page fails Core Web Vitals. The main image takes 3s to show (Google's limit is 2.5s), and a tap takes 214ms to respond (the limit is 200ms).</li>
-        </ul>
-      </div>
-      <div class="statpair">
-        <div><b>37</b><span>PageSpeed score, mobile</span></div>
-        <div><b>21.5s</b><span>main image, lab test</span></div>
-        <div><b>12.9s</b><span>main thread busy</span></div>
-        <div><b>3s · 214ms</b><span>real shoppers: LCP · INP</span></div>
-      </div>
-      <div class="blk"><span class="lbl">Across the store</span>
-        <p>All three templates tested score under 50, and every one takes about 8× longer than Google's 2.5-second limit to show its main image:</p>
-      </div>
-      <div class="tablewrap">
-        <table class="mini">
-          <thead><tr><th>Page</th><th class="r">Score</th><th class="r">LCP</th><th class="r">Blocking time</th><th class="r">Main thread</th><th class="r">Unused JS</th><th class="r">Render blocking</th></tr></thead>
-          <tbody>
-            <tr><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in/hfjwt010ly?form_factor=mobile">Homepage</a></td><td class="r">47</td><td class="r">22.1s</td><td class="r">360ms</td><td class="r">9.5s</td><td class="r">937 KiB</td><td class="r">2,010ms</td></tr>
-            <tr><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in-collections-shop-all/wab9syz7iv?form_factor=mobile">Shop All</a></td><td class="r">29</td><td class="r">21.2s</td><td class="r">1,700ms</td><td class="r">11.0s</td><td class="r">975 KiB</td><td class="r">1,660ms</td></tr>
-            <tr class="hl"><td><a href="https://pagespeed.web.dev/analysis/https-mybombae-in-products-6-in-1-bikini-trimmer-fuzzoff/4pgokwvv86?form_factor=mobile">Fuzzoff 6-in-1</a></td><td class="r">37</td><td class="r">21.5s</td><td class="r">760ms</td><td class="r">12.9s</td><td class="r">1,059 KiB</td><td class="r">2,140ms</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="blk">
-        <p>Most of the weight comes from third-party apps that load on every page: SagePilot (671 KiB), GoKwik KwikCart and KwikPass (another 800 KiB to 1 MB), the Meta pixel, Google Tag Manager, Microsoft Clarity, Google Translate, Unloq and Popin. On Shop All, a tap on Add to Cart waits 1,700ms behind scripts, more than 8× Google's 200ms limit. <b>Most of this can be fixed by changing load order and loading apps only when they're needed, without removing any app.</b></p>
-      </div>
-      <div class="blk"><span class="lbl">Why it costs orders</span>
-        <p>Google's mobile research found that the chance of a bounce rises 32% as load time goes from 1s to 3s, and 90% at 5s. Diwali is on 8 November, 23 days away, and Shop All is already set up for gifting. Every ad rupee spent during the festive peak lands on these pages.</p>
-      </div>
-      <div class="blk fix"><span class="lbl">What we will change, with TrooPerformance</span>
-        <ul>
-          <li><b>Fix the three templates in under 48 hours</b> on a duplicate theme, starting with the bestseller page, then Shop All and the homepage. We load the product image first, defer render-blocking files and set the load order for third-party apps. Nothing goes live until the Bombae team has reviewed it.</li>
-          <li><b>Monthly audit:</b> we re-run the audit every month, flag any change and work to hold the score we delivered.</li>
-          <li><b>Change guidelines:</b> a living guide for Bombae's tech or dev agency, so future changes don't quietly slow the site down again.</li>
-          <li><b>Plugin coordination:</b> we work directly with SagePilot, GoKwik and the other app vendors to optimise their scripts. This needs introductions from the Bombae team.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Also found: search and AI visibility</span>
-        <ul>
-          <li>The Fuzzoff page has two Product schema blocks. The one with the 4.73-star, 400-review rating fails to parse, so Google and AI shopping agents see the price but no reviews.</li>
-          <li>Shop All (142 products) is marked up as a single product called "Gifts she'll actually use".</li>
-          <li>The llms.txt and AGENTS.md files that AI agents read first are Shopify's default text and don't name any Bombae product.</li>
-        </ul>
-      </div>
-      <div class="blk"><span class="lbl">Recent work</span>
-        <p>We delivered similar theme-side performance work for a brand in the Essor Group's ($1B+) portfolio in 2 weeks. The average performance score went from 32 to 62, and average page load on a throttled mobile connection went from 35s to 4.5s. <a href="https://trooperformancecasestudy.pages.dev/">See the case study</a>.</p>
-      </div>
-      <div class="blk access"><span class="lbl">Separate charges apply</span>
-        <p>Page speed optimisation (TrooPerformance) is outside the core CRO scope and billed separately. See <a href="#perf-commercials">site performance commercials</a>.</p>
-      </div>
-      <p class="metric">Primary metric: <b>Core Web Vitals pass (LCP under 2.5s, INP under 200ms)</b> · PageSpeed score · reach at 20% depth · bounce rate</p>
-    </div>
-    <div class="shots stack">
-      <figure class="wide"><div class="shotimg"><img src="img/12-psi-fuzzoff.jpg" alt="PageSpeed mobile report for the Fuzzoff 6-in-1 page: score 37, LCP 21.5s, TBT 760ms"></div><figcaption>PageSpeed mobile lab test, Fuzzoff 6-in-1: score 37.</figcaption></figure>
-      <figure class="wide"><div class="shotimg"><img src="img/13-cwv-fuzzoff.jpg" alt="Core Web Vitals assessment failed: LCP 3s, INP 214ms"></div><figcaption>Real shoppers, last 28 days: Core Web Vitals failed.</figcaption></figure>
-    </div>
-  </div>
   </details>
 </section>
 
-<section id="plan">
+<section id="roadmap">
   <div class="head">
-    <span class="eyebrow">The plan</span>
-    <h2>Three phases over eight weeks, starting with the buy path</h2>
-    <p>Phase 1 fixes confirmed bugs in the shared theme, cart and checkout, so every product page benefits at once. Phases 2 and 3 run as A/B tests on the two hero PDPs first, then roll out to the rest of the catalogue. Hairess and Fuzzoff together get about 15,000 product views a day, enough for a clear result in 2–3 weeks per test.</p>
+    <span class="eyebrow">03 · Approach and roadmap</span>
+    <h2>How we will run the programme</h2>
+    <p>We rebuild the Add to Cart to Order journey first, then run experiments on top of it. Once that journey is optimised, we move to the next one, so each quarter has a clear focus.</p>
   </div>
   <div class="phases">
-    <div class="phase">
-      <span class="when">Weeks 1–2</span>
-      <h3>Unblock the buy path, store-wide</h3>
-      <ul>
-        <li>B1: open the cart drawer on Add to Cart, and hide scroll-to-top</li>
-        <li>B3: Checkout button for shoppers with the item in cart</li>
-        <li>B5: EMI modal buy button and live dates</li>
-        <li>B6: one warranty number per product, matching announcement bars</li>
-        <li>Clarity tracking on every PDP</li>
-      </ul>
-      <p class="out">Then A/B test: cart drawer vs Buy Now.</p>
-    </div>
-    <div class="phase">
-      <span class="when">Weeks 3–6</span>
-      <h3>Rebuild hero PDPs, then roll out</h3>
-      <ul>
-        <li>B6: trust row and delivery date</li>
-        <li>B7: review carousel under Add to Cart, trimmed banners</li>
-        <li>B8: suitability chips and open first-timer answers</li>
-        <li>B9: demo loop on slide 2, icon USPs, review photo strip</li>
-      </ul>
-      <p class="out">A/B test on Hairess and Fuzzoff, then apply the winning layout to every PDP.</p>
-    </div>
-    <div class="phase">
-      <span class="when">Weeks 3–8, alongside</span>
-      <h3>Speed, cart and checkout</h3>
-      <ul>
-        <li>B2: GoKwik funnel audit, then prepaid offer and COD tests</li>
-        <li>B4: cart drawer clean-up and reward progress bar</li>
-        <li>B10: TrooPerformance fixes three templates in 48 hrs, then monthly audits (separate charges apply)</li>
-      </ul>
-      <p class="out">A/B tests: cart drawer variant, prepaid offer.</p>
-    </div>
+    <div class="phase"><span class="pn">01</span><h3>Re-audit</h3><p>Audit the full Add to Cart to Order journey, including the GoKwik checkout steps, and turn the findings into an execution plan.</p><span class="when">Weeks 1–2</span></div>
+    <div class="phase"><span class="pn">02</span><h3>Revamp</h3><p>Design and build the new journey: Add to Cart behaviour, cart drawer and checkout entry, with tracking for every step.</p><span class="when">Weeks 3–6</span></div>
+    <div class="phase"><span class="pn">03</span><h3>Go-live</h3><p>QA on a duplicate theme, review with the Bombae team, then deploy to production.</p><span class="when">Week 7</span></div>
+    <div class="phase"><span class="pn">04</span><h3>A/B testing</h3><p>Run experiments on top of the revamped journey to improve each step further.</p><span class="when">Week 8 onwards</span></div>
+    <div class="phase"><span class="pn">05</span><h3>Next journey</h3><p>Move to the next journey in the following quarter, starting with average order value.</p><span class="when">Quarter 2 onwards</span></div>
   </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Quarter</th><th>Journey</th><th>Focus</th><th>Primary metric</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><b>Q1</b></td><td>Add to Cart → Order</td><td>Re-audit, revamp, go-live and first experiments</td><td>Cart → checkout, checkout → order</td></tr>
+        <tr><td><b>Q2</b></td><td>Average order value</td><td>Bundles, cart add-ons, free-gift thresholds and prepaid offers</td><td>Average order value</td></tr>
+        <tr><td><b>Q3</b></td><td>Product page → Add to Cart</td><td>Product page layout, reviews and EMI options</td><td>Add-to-cart rate</td></tr>
+        <tr><td><b>Q4</b></td><td>Landing pages and collections</td><td>Ad landing pages, collection pages and offer pages</td><td>Session → add to cart</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fineprint">Quarters 2 to 4 are a proposed sequence. We will confirm each one with the Bombae team based on results from the previous quarter.</p>
 </section>
 
 <section id="impact">
   <div class="head">
-    <span class="eyebrow">What it could be worth</span>
-    <h2>Roughly 1,100 to 3,500 more orders a month on today's traffic</h2>
-    <p>These scenarios apply the step improvements to the store's current 30-day funnel. Traffic and average order value stay the same in every row.</p>
-    <div class="blk access"><span class="lbl">Please read: estimates only</span>
-      <p>These figures are a rough analysis to show what each improvement could be worth. Troopod does not guarantee them. Final results depend on many factors outside the page, such as audience and traffic quality, ad mix, pricing, offers, stock and seasonality.</p>
-    </div>
+    <span class="eyebrow">04 · Expected impact</span>
+    <h2>Projected impact of the Q1 journey work</h2>
+    <p>Each scenario applies a relative lift to the two focus steps. For example, a 10% lift takes cart → checkout from 54.6% to 60.1%. Sessions, add-to-cart volume and average order value stay at today's levels.</p>
   </div>
   <div class="tablewrap">
     <table>
-      <thead><tr><th>Scenario</th><th class="r">Add to carts</th><th class="r">Cart → checkout</th><th class="r">Checkout → order</th><th class="r">Orders / month</th><th class="r">Extra orders</th><th class="r">Extra revenue / month</th></tr></thead>
+      <thead><tr><th>Scenario</th><th class="r">Cart → checkout</th><th class="r">Checkout → order</th><th class="r">Orders / month</th><th class="r">Extra orders</th><th class="r">Extra revenue / month</th><th class="r">Conversion rate</th></tr></thead>
       <tbody>
-        <tr><td>Today</td><td class="r">72,015</td><td class="r">54.6%</td><td class="r">24.3%</td><td class="r">9,537</td><td class="r">–</td><td class="r">–</td></tr>
-        <tr><td>Conservative: buy path fixed (Phase 1)</td><td class="r">72,015</td><td class="r">57%</td><td class="r">26%</td><td class="r">10,673</td><td class="r">+1,136</td><td class="r">₹19.8L</td></tr>
-        <tr class="hl"><td>Target: Phases 1 and 3</td><td class="r">72,015</td><td class="r">59%</td><td class="r">28%</td><td class="r">11,897</td><td class="r">+2,360</td><td class="r">₹41.1L</td></tr>
-        <tr><td>Stretch: plus a 10% lift in add to cart (Phase 2)</td><td class="r">79,216</td><td class="r">59%</td><td class="r">28%</td><td class="r">13,087</td><td class="r">+3,550</td><td class="r">₹61.8L</td></tr>
+        <tr><td><b>Today</b></td><td class="r">54.6%</td><td class="r">24.3%</td><td class="r">9,537</td><td class="r">–</td><td class="r">–</td><td class="r">1.16%</td></tr>
+        <tr><td><b>Conservative</b></td><td class="r">57.3%<span class="lift">+5% lift</span></td><td class="r">25.5%<span class="lift">+5% lift</span></td><td class="r">10,526</td><td class="r">+989</td><td class="r">₹17.2L</td><td class="r">1.28%</td></tr>
+        <tr class="hl"><td><b>Target</b></td><td class="r">60.1%<span class="lift">+10% lift</span></td><td class="r">27.9%<span class="lift">+15% lift</span></td><td class="r">12,077</td><td class="r">+2,540</td><td class="r">₹44.2L</td><td class="r">1.47%</td></tr>
+        <tr><td><b>Stretch</b></td><td class="r">62.8%<span class="lift">+15% lift</span></td><td class="r">30.3%<span class="lift">+25% lift</span></td><td class="r">13,724</td><td class="r">+4,187</td><td class="r">₹72.8L</td><td class="r">1.67%</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="fineprint">Add to carts and checkouts are GA4 events. Orders are Shopify's count. Revenue uses the store's average order value of ₹1,740. These are illustrative scenarios, not forecasts or commitments. Each change is confirmed by its own test.</p>
+  <div class="box"><span class="lbl">Estimates only</span><p>These figures are a rough analysis to show what each improvement could be worth. Troopod does not guarantee them. Final results depend on many factors, including audience and traffic quality, ad mix, pricing, offers, stock and seasonality.</p></div>
+  <p class="fineprint">Lifts are relative to today's rate. Extra revenue uses the store's average order value of ₹1,740. Conversion rate is orders ÷ 8,19,477 sessions.</p>
 </section>
 
 <section id="commercials">
   <div class="head">
-    <span class="eyebrow">Commercials</span>
-    <h2>Two ways to work with us</h2>
-    <p>TrooCRO fixes the issues in the customer journey covered in this proposal. TrooGrowth runs tests, fixes issues and consults on the levers that drive revenue growth.</p>
+    <span class="eyebrow">05 · Commercials</span>
+    <h2>Engagement options</h2>
+    <p>Both options are end-to-end. Troopod handles the work from audit to deployment and tracks results throughout.</p>
   </div>
   <div class="plans">
     <div class="plan">
       <div class="planhead">
-        <span class="eyebrow">TrooCRO</span>
+        <span class="tag">TrooCRO</span>
         <b class="price num">₹2,00,000<span class="per"> / month + GST</span></b>
-        <p class="planline">Fix the customer journey</p>
+        <p class="planline">Full CRO programme</p>
       </div>
       <ul>
-        <li>We fix the issues shoppers hit along the customer journey, from the product page to Add to Cart, cart and checkout.</li>
-        <li>This covers barriers B1 to B9 in this proposal, on the hero PDPs first and then across every product page.</li>
-        <li>We measure each fix against its primary metric: cart → checkout, checkout → order and add-to-cart rate.</li>
+        <li><b>Audit:</b> 500+ parameter audit of the journey in focus.</li>
+        <li><b>Strategy:</b> execution plan and quarterly roadmap.</li>
+        <li><b>Design and development:</b> we design and build every change.</li>
+        <li><b>QA and deployment:</b> tested on a duplicate theme, then deployed to production.</li>
+        <li><b>Tracking:</b> event tracking for each step of the journey.</li>
+        <li><b>Experimentation:</b> ongoing A/B tests on the revamped journey.</li>
       </ul>
     </div>
     <div class="plan featured">
       <div class="planhead">
-        <span class="eyebrow">TrooGrowth</span>
+        <span class="tag">TrooGrowth</span>
         <b class="price num">₹2,50,000<span class="per"> / month + GST</span></b>
-        <p class="planline">Grow revenue</p>
+        <p class="planline">Full CRO plan + growth retainer</p>
       </div>
       <ul>
-        <li>We run A/B tests, fix issues and consult on the levers that lead to revenue growth.</li>
-        <li>We work towards moving Bombae's revenue numbers: conversion rate, average order value and orders.</li>
+        <li><b>Everything in TrooCRO.</b></li>
+        <li><b>Growth retainer:</b> ongoing consulting on the levers that drive revenue growth.</li>
+        <li><b>Revenue focus:</b> we work towards moving revenue numbers, including conversion rate, average order value and orders.</li>
+        <li><b>Experiments:</b> up to 2 experiments per month.</li>
       </ul>
     </div>
   </div>
-  <p class="fineprint">Both fees are billed monthly, plus GST. Site performance (TrooPerformance) is billed separately, below. New creatives are quoted separately.</p>
 
-  <div class="perfcomm" id="perf-commercials">
-    <div class="perfhead">
-      <span class="eyebrow">Site performance · TrooPerformance · billed separately</span>
-      <h3>Fixing page speed (B10)</h3>
-      <p>Two tracks. Track 1 fixes and holds the theme-side speed issues from our audit. Track 2 is an optional add-on to work with the app vendors whose scripts slow the site down.</p>
+  <div class="perf" id="perf-commercials">
+    <div class="phd">
+      <span class="eyebrow">Add-on · TrooPerformance · billed separately</span>
+      <h3>Site speed optimisation</h3>
+      <p>Our speed audit on 16 Oct 2026 found the homepage, Shop All and the Fuzzoff page all score under 50 on Google PageSpeed for mobile. TrooPerformance fixes this as a separate engagement.</p>
     </div>
     <div class="tracks">
-      <div class="track2">
-        <div class="trackhead"><span class="trk">Track 1 · Theme-side optimisation</span><span class="pill">6-month programme</span></div>
-        <p>We fix the three templates (Fuzzoff bestseller, Shop All, homepage) on a duplicate theme, take the fixes to production and hold the score there for 6 months. Script work for plugins and apps is outside this track and sits in Track 2.</p>
+      <div class="trk">
+        <div class="trkhead"><b>Track 1 · Theme-side optimisation</b><span class="pill">6-month programme</span></div>
+        <p>We optimise each template on a duplicate theme, take it to production and hold the score there. Script work for plugins and apps is covered in Track 2.</p>
         <div class="fees">
-          <div class="fee"><span class="when">One-time · Month 1</span><b class="num">₹1.5L</b><span>Optimise the three templates and ship them to production</span></div>
-          <div class="fee"><span class="when">Quarterly · Recurring</span><b class="num">₹1.25L / qtr × 2</b><span>Ongoing maintenance to hold the score, months 2–6</span></div>
+          <div class="fee"><span class="when">One-time</span><b class="num">₹1,50,000</b><span>Per template, optimised and shipped to production</span></div>
+          <div class="fee"><span class="when">Quarterly · Recurring</span><b class="num">₹2,50,000</b><span>Per quarter, maintenance to hold the score</span></div>
         </div>
-        <p class="total">6-month programme, <b>₹4L total</b>: ₹1.5L one-time to go live, plus ₹1.25L per quarter for 2 quarters to maintain it.</p>
       </div>
-      <div class="track2">
-        <div class="trackhead"><span class="trk">Track 2 · Plugin and third-party app coordination</span><span class="pill">Optional add-on</span></div>
-        <p>Runs alongside Track 1. We work with Bombae's app vendors (SagePilot, GoKwik and others) to optimise the scripts that drag the score down. This needs introductions from the Bombae team to the relevant app teams.</p>
+      <div class="trk">
+        <div class="trkhead"><b>Track 2 · Plugin and app coordination</b><span class="pill">Optional add-on</span></div>
+        <p>Runs alongside Track 1. We work with Bombae's app vendors to optimise the scripts that slow the site down. This needs introductions to the relevant app teams.</p>
         <div class="fees">
-          <div class="fee"><span class="when">One-time</span><b class="num">₹1L</b><span>₹50k fixed + ₹50k on hitting the target</span></div>
-          <div class="fee"><span class="when">Monthly</span><b class="num">Included</b><span>No separate monthly fee, folded into Track 1's cost</span></div>
+          <div class="fee"><span class="when">One-time</span><b class="num">₹1,00,000</b><span>₹50,000 fixed + ₹50,000 on hitting the target</span></div>
+          <div class="fee"><span class="when">Monthly</span><b class="num">Included</b><span>No separate monthly fee</span></div>
         </div>
       </div>
     </div>
-    <details class="terms">
-      <summary>Notes for site performance</summary>
+    <details class="notes">
+      <summary>Notes for site speed optimisation</summary>
       <ul>
-        <li><b>The 15% band:</b> Lighthouse scores change with device, network and time of day. A result within ±15% of the agreed Speed Index target counts as on target.</li>
-        <li><b>Target:</b> the Speed Index target for Track 2 is agreed with the Bombae team at kickoff.</li>
-        <li><b>Change guidelines:</b> we share a living guideline doc for Bombae's tech or dev agency. It must be followed on every future change, so the gains aren't quietly lost.</li>
-        <li><b>Track 1 scope limit:</b> score impact that comes from third-party plugins or apps can't be delivered under Track 1. It is covered only under Track 2.</li>
-        <li><b>Track 2 dependency:</b> plugin and app work needs direct work with vendors, which depends on introductions and cooperation from the Bombae team.</li>
-        <li><b>Measurement tool:</b> Speed Index is measured with Lighthouse 13.5.0, mobile preset, unless stated otherwise.</li>
-        <li><b>Proposal validity:</b> these commercials are valid for 15 days from the date of this proposal.</li>
-        <li><b>Payment terms:</b> the one-time fee is payable in advance of deploying the optimised theme. Recurring maintenance fees are payable quarterly in advance.</li>
-        <li><b>Taxes:</b> GST and any other applicable taxes are charged in addition.</li>
-        <li><b>Team dependency:</b> this work needs prompt support, connects and approvals from the Bombae team. A delay of more than 3 days on any of these will affect deliverables, and Troopod will not be held responsible for the resulting impact.</li>
+        <li>Lighthouse scores vary by device, network and time of day. A result within ±15% of the agreed Speed Index target counts as on target.</li>
+        <li>The Speed Index target for Track 2 is agreed with the Bombae team at kickoff.</li>
+        <li>Score impact from third-party plugins or apps is covered only under Track 2.</li>
+        <li>Speed is measured with Lighthouse 13.5.0, mobile preset, unless stated otherwise.</li>
+        <li>A change guideline document will be shared with Bombae's development team so future changes don't reduce speed.</li>
       </ul>
     </details>
   </div>
-  <div class="blk access tc"><span class="lbl">Terms and conditions</span>
-    <p>All work in this proposal, including TrooCRO, TrooGrowth and TrooPerformance, follows the terms and conditions of the existing agreement between Troopod and Visage.</p>
-  </div>
+
+  <div class="box"><span class="lbl">Terms and conditions</span><p>All work in this proposal follows the terms and conditions of the existing agreement between Troopod and Visage. New creatives, if needed, are quoted separately.</p></div>
 </section>
 
-<section id="asks">
+<section id="next">
   <div class="head">
-    <span class="eyebrow">To get started</span>
-    <h2>What we need from the Bombae team</h2>
+    <span class="eyebrow">06 · Next steps</span>
+    <h2>Getting started</h2>
   </div>
-  <div class="asks">
-    <div class="ask"><p><b>GoKwik merchant dashboard access</b> for the checkout step funnel, payment-method split and COD vs prepaid.</p></div>
-    <div class="ask"><p><b>The correct warranty for each product</b> (Fuzzoff: 1 or 1.5 years; Hairess: 1.5 or 2 years) and the return policy we can show on product pages.</p></div>
-    <div class="ask"><p><b>Video and photo assets</b>: demo and result clips for each hero product, from ads or creators, for the first screen and the suitability chips. If Bombae doesn't have these, Troopod can produce the creatives (charges apply).</p></div>
-  </div>
+  <ol class="steps">
+    <li><span><b>Align on scope</b>Agree the engagement option and commercials.</span></li>
+    <li><span><b>Agreement addendum</b>Execute the addendum to the existing agreement.</span></li>
+    <li><span><b>Access</b>Share the access credentials needed for the work.</span></li>
+    <li><span><b>Kickoff</b>Start the first audit cycle.</span></li>
+  </ol>
 </section>
 
 <footer>
   <img src="img/troopod-logo.png" alt="Troopod">
-  <span>Based on the <a href="https://prayrit-troopod.github.io/bombae-cro-baseline/">Bombae CRO baseline</a> (GA4, Microsoft Clarity, Shopify) and a live mobile audit of mybombae.in on 16 Oct 2026, with the Fuzzoff 6-in-1 PDP as the example page.</span>
+  <span>Troopod · CRO proposal for Bombae · Data from GA4, Shopify, Microsoft Clarity and a live review of mybombae.in.</span>
 </footer>
 
 </div>
-
-<script>
-(function () {
-  var all = function () { return Array.prototype.slice.call(document.querySelectorAll('details.barrier')); };
-  var btn = document.getElementById('toggleall');
-  function sync() {
-    var open = all().every(function (d) { return d.open; });
-    btn.textContent = open ? 'Collapse all barriers' : 'Expand all barriers';
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-  btn.addEventListener('click', function () {
-    var open = !all().every(function (d) { return d.open; });
-    all().forEach(function (d) { d.open = open; });
-    sync();
-  });
-  all().forEach(function (d) { d.addEventListener('toggle', sync); });
-  function openFromHash() {
-    var id = location.hash.slice(1);
-    var el = id && document.getElementById(id);
-    if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView({ block: 'start' }); }
-  }
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href^="#b"]');
-    if (!a) return;
-    var el = document.getElementById(a.getAttribute('href').slice(1));
-    if (el && el.tagName === 'DETAILS') { e.preventDefault(); el.open = true; el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-  });
-  window.addEventListener('hashchange', openFromHash);
-  openFromHash();
-})();
-</script>
 </body>
 </html>
